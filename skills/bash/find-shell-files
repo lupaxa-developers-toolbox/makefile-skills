@@ -1,0 +1,197 @@
+#!/usr/bin/env bash
+
+# =============================================================================
+# Shell Script Discovery
+# =============================================================================
+#
+# Discover shell scripts within a repository without relying exclusively on
+# filename extensions.
+#
+# A file is treated as a shell script when at least one of the following is
+# true:
+#
+#   - Its filename ends in .sh or .bash.
+#   - The first line is a recognised shell shebang (CRLF-safe).
+#   - file(1) reports a shell/bash/zsh/… script (human description).
+#   - file(1) MIME type is text/x-shellscript.
+#
+# Extensionless commands (for example bin/tool with a bash shebang) are
+# included when shebang or file(1) detection succeeds.
+#
+# Recognised shell interpreters include:
+#
+#   - bash
+#   - dash
+#   - ksh
+#   - sh
+#   - zsh
+#
+# Common repository metadata, dependency, virtual-environment and generated
+# directories are excluded from discovery, including the cloned makefile
+# skills library directory (".makefiles" by default, or the basename of an
+# explicit exclude directory passed as the second argument).
+#
+# Usage:
+#
+#   skills/bash/find-shell-files
+#   skills/bash/find-shell-files scripts
+#   skills/bash/find-shell-files /path/to/project
+#   skills/bash/find-shell-files /path/to/project .makefiles
+#
+# =============================================================================
+
+set -euo pipefail
+
+# -----------------------------------------------------------------------------
+# Configuration
+# -----------------------------------------------------------------------------
+
+SEARCH_DIRECTORY="${1:-.}"
+EXTRA_EXCLUDE_DIR="${2:-}"
+
+# -----------------------------------------------------------------------------
+# Guards
+# -----------------------------------------------------------------------------
+
+if [[ ! -d "${SEARCH_DIRECTORY}" ]]; then
+    printf 'ERROR: shell script search directory not found: %s\n' \
+        "${SEARCH_DIRECTORY}" >&2
+    exit 2
+fi
+
+if ! command -v find >/dev/null 2>&1; then
+    printf 'ERROR: required command not found: find\n' >&2
+    exit 2
+fi
+
+if ! command -v file >/dev/null 2>&1; then
+    printf 'ERROR: required command not found: file\n' >&2
+    exit 2
+fi
+
+# -----------------------------------------------------------------------------
+# Temporary Storage
+# -----------------------------------------------------------------------------
+
+DISCOVERED_FILES="$(mktemp)"
+
+cleanup() {
+    rm -f "${DISCOVERED_FILES}"
+}
+
+trap cleanup EXIT
+
+# -----------------------------------------------------------------------------
+# Shell Script Detection
+# -----------------------------------------------------------------------------
+
+is_shell_extension() {
+    local path="$1"
+
+    case "${path}" in
+        *.sh | *.bash)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+is_shell_shebang() {
+    local path="$1"
+    local first_line
+
+    IFS= read -r first_line < "${path}" || true
+    # Strip CR so CRLF shebang lines still match.
+    first_line="${first_line%$'\r'}"
+
+    [[ "${first_line}" =~ ^#![[:space:]]*/bin/(ba|da|k|z)?sh([[:space:]]|$) ]] ||
+        [[ "${first_line}" =~ ^#![[:space:]]*/usr/bin/(ba|da|k|z)?sh([[:space:]]|$) ]] ||
+        [[ "${first_line}" =~ ^#![[:space:]]*/usr/local/bin/(ba|da|k|z)?sh([[:space:]]|$) ]] ||
+        [[ "${first_line}" =~ ^#![[:space:]]*/opt/homebrew/bin/(ba|da|k|z)?sh([[:space:]]|$) ]] ||
+        [[ "${first_line}" =~ ^#![[:space:]]*/usr/bin/env[[:space:]]+(ba|da|k|z)?sh([[:space:]]|$) ]] ||
+        [[ "${first_line}" =~ ^#![[:space:]]*/usr/bin/env[[:space:]]+-S[[:space:]]+(ba|da|k|z)?sh([[:space:]]|$) ]]
+}
+
+is_shell_file_type() {
+    local path="$1"
+    local description mime
+
+    description="$(file -b "${path}" 2>/dev/null || true)"
+    mime="$(file -b --mime-type "${path}" 2>/dev/null || true)"
+
+    # libmagic MIME (Linux, modern file(1); may be empty on older macOS).
+    if [[ "${mime}" == "text/x-shellscript" ]]; then
+        return 0
+    fi
+
+    # Human-readable descriptions vary by OS / libmagic version.
+    [[ "${description}" =~ [Ss]hell[[:space:]]script ]] ||
+        [[ "${description}" =~ [Bb]ash[[:space:]]script ]] ||
+        [[ "${description}" =~ [Zz]sh[[:space:]]script ]] ||
+        [[ "${description}" =~ [Kk]sh[[:space:]]script ]] ||
+        [[ "${description}" =~ [Dd]ash[[:space:]]script ]] ||
+        [[ "${description}" =~ /bin/(ba|da|k|z)?sh ]] ||
+        [[ "${description}" =~ /usr/bin/env[[:space:]]+(ba|da|k|z)?sh ]] ||
+        [[ "${description}" =~ with[[:space:]]+(ba|da|k|z)?sh[[:space:]]+interpreter ]]
+}
+
+is_shell_script() {
+    local path="$1"
+
+    is_shell_extension "${path}" ||
+        is_shell_shebang "${path}" ||
+        is_shell_file_type "${path}"
+}
+
+# -----------------------------------------------------------------------------
+# Discovery
+# -----------------------------------------------------------------------------
+
+PRUNE_NAMES=(
+    .git
+    .makefiles
+    .audit-env
+    .cache
+    .mypy_cache
+    .pytest_cache
+    .ruff_cache
+    .tox
+    .venv
+    __pycache__
+    build
+    dist
+    node_modules
+    site
+    vendor
+    venv
+)
+
+if [[ -n "${EXTRA_EXCLUDE_DIR}" ]]; then
+    PRUNE_NAMES+=("$(basename -- "${EXTRA_EXCLUDE_DIR}")")
+fi
+
+PRUNE_EXPR=()
+for name in "${PRUNE_NAMES[@]}"; do
+    if [[ ${#PRUNE_EXPR[@]} -gt 0 ]]; then
+        PRUNE_EXPR+=(-o)
+    fi
+    PRUNE_EXPR+=(-name "${name}")
+done
+
+while IFS= read -r -d '' path; do
+    if is_shell_script "${path}"; then
+        printf '%s\n' "${path}" >> "${DISCOVERED_FILES}"
+    fi
+done < <(
+    find "${SEARCH_DIRECTORY}" \
+        -type d \( "${PRUNE_EXPR[@]}" \) -prune \
+        -o -type f -print0
+)
+
+# -----------------------------------------------------------------------------
+# Results
+# -----------------------------------------------------------------------------
+
+sort -u "${DISCOVERED_FILES}"

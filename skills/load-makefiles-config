@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cfg="${1:-./makefiles.config}"
+if [ ! -f "$cfg" ]; then
+  exit 0
+fi
+
+make_var_for_key() {
+  case "$1" in
+    skills) echo SKILLS ;;
+    ref) echo MAKEFILES_REF ;;
+    transport) echo MAKEFILES_TRANSPORT ;;
+    repo_ssh) echo MAKEFILES_REPO_SSH ;;
+    repo_http) echo MAKEFILES_REPO_HTTP ;;
+    custom_dir) echo MAKEFILES_CUSTOM_DIR ;;
+    update_wrapper) echo MAKEFILES_UPDATE_WRAPPER ;;
+    *) return 1 ;;
+  esac
+}
+
+lineno=0
+while IFS= read -r line || [ -n "$line" ]; do
+  lineno=$((lineno + 1))
+  # strip comments
+  line="${line%%#*}"
+  # trim
+  line="$(printf '%s' "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+  [ -z "$line" ] && continue
+  case "$line" in
+    *=*) ;;
+    *)
+      echo "ERROR: $cfg:$lineno: expected key = value (got: $line)" >&2
+      exit 2
+      ;;
+  esac
+  key="${line%%=*}"
+  val="${line#*=}"
+  key="$(printf '%s' "$key" | sed -e 's/[[:space:]]*$//')"
+  val="$(printf '%s' "$val" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+  make_var="$(make_var_for_key "$key" || true)"
+  if [ -z "$make_var" ]; then
+    echo "ERROR: $cfg:$lineno: unknown key '$key'" >&2
+    exit 2
+  fi
+  # Make-safe: values must not contain newlines; reject them
+  case "$val" in
+    *$'\n'*)
+      echo "ERROR: $cfg:$lineno: value must be a single line" >&2
+      exit 2
+      ;;
+  esac
+  printf '%s ?= %s\n' "$make_var" "$val"
+done < "$cfg"
