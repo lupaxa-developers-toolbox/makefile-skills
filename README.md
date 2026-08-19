@@ -6,7 +6,7 @@
 
 <h1 align="center">Makefile Skills</h1>
 
-Reusable Makefile skills for project versioning, Python, MkDocs, and Bash
+Reusable Makefile skills for project versioning, Python, MkDocs, Bash, and Ruby
 workflows.
 
 ## Adopt the wrapper
@@ -27,8 +27,8 @@ workflows.
    ref = head
    ```
 
-   Versioning is always available. Optional skills are `python`, `mkdocs`, and
-   `bash`. To add another language, copy
+   Versioning is always available. Optional skills are `python`, `mkdocs`,
+   `bash`, and `ruby`. To add another language, copy
    [`skills/_template.language.mk`](skills/_template.language.mk) to
    `skills/<id>.mk` and follow the checklist in that file.
 
@@ -129,6 +129,11 @@ make mkdocs-serve MKDOCS_PORT=8002
 
 Enable `bash` for `make bash-list-scripts`, `make bash-syntax`,
 `make bash-shellcheck`, and `make bash-check`.
+
+Enable `ruby` for `make ruby-bundle`, `make ruby-lint`, `make ruby-format`,
+`make ruby-test`, `make ruby-check`, and `make ruby-build`. When a `Gemfile`
+is present, lint and test run via `bundle exec`; `gem build` / `gem push` are
+not bundled.
 
 Run `make help` in a consumer project to see only the versioning commands and
 the optional skills selected in `makefiles.config`.

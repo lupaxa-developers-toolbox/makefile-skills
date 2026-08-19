@@ -31,8 +31,8 @@
    ref = head
    ```
 
-   Versioning is always available. Optional skills are `python`, `mkdocs`, and
-   `bash`.
+   Versioning is always available. Optional skills are `python`, `mkdocs`,
+   `bash`, and `ruby`.
 
 5. Inspect:
 

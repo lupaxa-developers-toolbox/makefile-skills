@@ -25,7 +25,7 @@ Unknown keys are a hard error.
 
 | Config key | Make variable | Default | Description |
 | --- | --- | --- | --- |
-| `skills` | `SKILLS` | _(empty)_ | Optional skills: `python`, `mkdocs`, `bash` (space-separated) |
+| `skills` | `SKILLS` | _(empty)_ | Optional skills: `python`, `mkdocs`, `bash`, `ruby` (space-separated) |
 | `ref` | `MAKEFILES_REF` | `head` | `head` → tip of `master`, or a tag such as `v1.0.0` |
 | `transport` | `MAKEFILES_TRANSPORT` | `https` | `ssh`, `https`, or `http` (https default so public consumers need no org SSH) |
 | `repo_ssh` | `MAKEFILES_REPO_SSH` | `git@github.com:lupaxa-developers-toolbox/makefile-skills.git` | SSH clone URL |
@@ -199,6 +199,52 @@ Enable with `skills = bash` in `makefiles.config`.
 | `SHELL_FILES` | auto-discovered |
 | `SHELLCHECK_SHELL` | `bash` |
 | `BASH` / `SHELLCHECK` | tool names on `PATH` |
+
+</div>
+
+## Ruby skill
+
+Enable with `skills = ruby` in `makefiles.config`.
+
+<div class="lupaxa-table lupaxa-table--commands" markdown="1">
+
+| Command | Description |
+| --- | --- |
+| `make ruby-doctor` | Check Ruby tools and project layout |
+| `make ruby-bundle` | Install dependencies from `Gemfile` |
+| `make ruby-lint` | Run RuboCop |
+| `make ruby-format` | Auto-correct with RuboCop |
+| `make ruby-check-diff` | Show correctable RuboCop offences |
+| `make ruby-test` | Run `rake test` |
+| `make ruby-check` | Run lint and tests |
+| `make ruby-check-all` | Alias of `ruby-check` |
+| `make ruby-build` | Build the project gem |
+| `make ruby-publish` | Build and publish the project gem |
+| `make ruby-clean` | Remove Ruby build and test artefacts |
+
+</div>
+
+When a `Gemfile` is present, lint, format, test, and check targets run via
+`bundle exec` (`RUBY_RUN`). `ruby-build` and `ruby-publish` call `gem build`
+and `gem push` directly — they are not wrapped in Bundler.
+
+### Ruby variables
+
+<div class="lupaxa-table lupaxa-table--vars" markdown="1">
+
+| Variable | Default |
+| --- | --- |
+| `RUBY` | `ruby` |
+| `BUNDLE` | `bundle` |
+| `RUBOCOP` | `rubocop` |
+| `RAKE` | `rake` |
+| `GEM` | `gem` |
+| `GEMFILE` | `Gemfile` |
+| `GEMSPEC` | _(empty — auto-detect single `*.gemspec`)_ |
+| `SRC_DIR` | `lib` |
+| `TEST_DIR` | `test` |
+| `RUBY_RUN` | `bundle exec` when `Gemfile` exists; otherwise empty |
+| `RUBOCOP_ARGS` | _(empty)_ |
 
 </div>
 

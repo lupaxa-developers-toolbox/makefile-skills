@@ -8,7 +8,7 @@ make doctor
 
 `make doctor` is the top-level check: lifecycle (clone/transport), then
 `doctor-versioning`, then each enabled skill doctor (`python-doctor`,
-`mkdocs-doctor`, `bash-doctor`, …). Every section runs even if an earlier one
+`mkdocs-doctor`, `bash-doctor`, `ruby-doctor`, …). Every section runs even if an earlier one
 fails; the command exits non-zero only after the full report if any section
 had issues. You can still run any skill doctor on its own (those fail fast).
 
@@ -171,6 +171,25 @@ make bash-list-scripts SHELL_SOURCE_DIR=bin
 # or
 make bash-list-scripts SHELL_FILES="bin/tool scripts/install.sh"
 ```
+
+## Ruby skill
+
+Enable with `skills = ruby` in `makefiles.config`.
+
+Common loop:
+
+```bash
+make ruby-bundle
+make ruby-lint
+make ruby-format
+make ruby-test
+make ruby-check          # lint + test
+make ruby-build
+```
+
+When a `Gemfile` is present, RuboCop and `rake test` run through
+`bundle exec`. `ruby-build` and `ruby-publish` use `gem` directly (not
+bundled). Set `GEMSPEC=` when the repo has multiple `*.gemspec` files.
 
 ## Switching SSH and HTTPS
 

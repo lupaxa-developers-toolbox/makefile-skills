@@ -13,6 +13,7 @@ except where noted below.
 | `Makefile.python` | `makefiles.config.python` | `python` | `no` | Python package / app |
 | `Makefile.python-docs` | `makefiles.config.python-docs` | `python mkdocs` | `no` | Python project with MkDocs |
 | `Makefile.bash-project` | `makefiles.config.bash-project` | `bash` | `yes` | Shell-script repositories |
+| `Makefile.ruby` | `makefiles.config.ruby` | `ruby` | `yes` | Ruby gem / library projects |
 
 </div>
 
@@ -94,6 +95,23 @@ cp examples/makefiles.config.bash-project ./makefiles.config
 make init
 make bash-list-scripts
 make bash-check
+```
+
+## Ruby
+
+`makefiles.config.ruby`:
+
+```ini
+skills = ruby
+update_wrapper = yes
+```
+
+```bash
+cp examples/Makefile.ruby ./Makefile
+cp examples/makefiles.config.ruby ./makefiles.config
+make init
+make ruby-bundle
+make ruby-check
 ```
 
 !!! tip "Ignore the clone"
