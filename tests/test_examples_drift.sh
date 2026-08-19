@@ -97,6 +97,9 @@ assert_config_skills "makefiles.config.versioning-only" \
 assert_config_skills "makefiles.config.bash-project" \
   "$EXAMPLES_DIR/makefiles.config.bash-project" "bash"
 
+assert_config_skills "makefiles.config.ruby" \
+  "$EXAMPLES_DIR/makefiles.config.ruby" "ruby"
+
 assert_config_skills "makefiles.config.python" \
   "$EXAMPLES_DIR/makefiles.config.python" "python" "no"
 
