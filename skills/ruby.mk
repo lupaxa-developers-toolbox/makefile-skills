@@ -24,7 +24,7 @@ help-ruby:
 	@echo "  ruby-doctor       Check Ruby tools and project layout"
 	@echo "  ruby-bundle       Install dependencies from Gemfile"
 	@echo "  ruby-lint         Run RuboCop"
-	@echo "  ruby-format       Auto-correct with RuboCop"
+	@echo "  ruby-format       RuboCop unsafe autocorrect (-A)"
 	@echo "  ruby-check-diff   Show correctable RuboCop offences"
 	@echo "  ruby-test         Run rake test"
 	@echo "  ruby-check        Run lint and tests"

@@ -132,8 +132,9 @@ Enable `bash` for `make bash-list-scripts`, `make bash-syntax`,
 
 Enable `ruby` for `make ruby-bundle`, `make ruby-lint`, `make ruby-format`,
 `make ruby-test`, `make ruby-check`, and `make ruby-build`. When a `Gemfile`
-is present, lint and test run via `bundle exec`; `gem build` / `gem push` are
-not bundled.
+is present, lint, format, check-diff, test, and check run via `bundle exec`
+(`RUBY_RUN`); `ruby-format` uses RuboCop `-A` (unsafe autocorrect). `gem
+build` / `gem push` are not bundled.
 
 Run `make help` in a consumer project to see only the versioning commands and
 the optional skills selected in `makefiles.config`.

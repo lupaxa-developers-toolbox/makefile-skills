@@ -213,7 +213,7 @@ Enable with `skills = ruby` in `makefiles.config`.
 | `make ruby-doctor` | Check Ruby tools and project layout |
 | `make ruby-bundle` | Install dependencies from `Gemfile` |
 | `make ruby-lint` | Run RuboCop |
-| `make ruby-format` | Auto-correct with RuboCop |
+| `make ruby-format` | RuboCop unsafe autocorrect (`-A`; all correctable offences) |
 | `make ruby-check-diff` | Show correctable RuboCop offences |
 | `make ruby-test` | Run `rake test` |
 | `make ruby-check` | Run lint and tests |
@@ -224,9 +224,11 @@ Enable with `skills = ruby` in `makefiles.config`.
 
 </div>
 
-When a `Gemfile` is present, lint, format, test, and check targets run via
-`bundle exec` (`RUBY_RUN`). `ruby-build` and `ruby-publish` call `gem build`
-and `gem push` directly — they are not wrapped in Bundler.
+When a `Gemfile` is present, lint, format, check-diff, test, and check
+targets run via `bundle exec` (`RUBY_RUN`). `ruby-format` invokes RuboCop
+with `-A` (unsafe autocorrect — the full correctable set, not safe-only `-a`).
+`ruby-build` and `ruby-publish` call `gem build` and `gem push` directly —
+they are not wrapped in Bundler.
 
 ### Ruby variables
 

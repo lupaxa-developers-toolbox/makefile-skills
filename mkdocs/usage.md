@@ -187,9 +187,12 @@ make ruby-check          # lint + test
 make ruby-build
 ```
 
-When a `Gemfile` is present, RuboCop and `rake test` run through
-`bundle exec`. `ruby-build` and `ruby-publish` use `gem` directly (not
-bundled). Set `GEMSPEC=` when the repo has multiple `*.gemspec` files.
+When a `Gemfile` is present, lint, format, check-diff, test, and check
+run through `bundle exec` (`RUBY_RUN`). `ruby-format` uses RuboCop `-A`
+(unsafe autocorrect). `ruby-build` and `ruby-publish` call `gem build` and
+`gem push` directly — not wrapped in Bundler. When the repo has multiple
+`*.gemspec` files, set an explicit path, e.g.
+`GEMSPEC=my_project.gemspec`.
 
 ## Switching SSH and HTTPS
 
