@@ -27,8 +27,8 @@
 
 .md-typeset table:not([class]) th,
 .md-typeset table:not([class]) td {
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
   vertical-align: top;
 }
 
@@ -37,6 +37,15 @@
   background-color: var(--lupaxa-blue);
   border-color: color-mix(in srgb, var(--lupaxa-blue) 85%, var(--lupaxa-white));
   font-weight: 650;
+}
+
+/* Code in headers inherits header chrome (no dark code chip). */
+.md-typeset table:not([class]) th code {
+  color: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  font-weight: inherit;
+  padding: 0;
 }
 
 .md-typeset table:not([class]) th a {
@@ -51,12 +60,16 @@
 /* Skill | Always on? | Purpose */
 .lupaxa-table--skills table:not([class]) th:nth-child(1),
 .lupaxa-table--skills table:not([class]) td:nth-child(1) {
-  width: 16%;
+  width: 14%;
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 
 .lupaxa-table--skills table:not([class]) th:nth-child(2),
 .lupaxa-table--skills table:not([class]) td:nth-child(2) {
-  width: 14%;
+  width: 16%;
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 
 .lupaxa-table--skills table:not([class]) th:nth-child(3),
@@ -64,56 +77,98 @@
   width: 70%;
 }
 
-/* File | SKILLS | Use when */
+/* Wrapper | Config | skills | update_wrapper | Use when */
 .lupaxa-table--examples table:not([class]) th:nth-child(1),
 .lupaxa-table--examples table:not([class]) td:nth-child(1) {
-  width: 34%;
+  width: 20%;
 }
 
 .lupaxa-table--examples table:not([class]) th:nth-child(2),
 .lupaxa-table--examples table:not([class]) td:nth-child(2) {
-  width: 22%;
+  width: 26%;
 }
 
 .lupaxa-table--examples table:not([class]) th:nth-child(3),
 .lupaxa-table--examples table:not([class]) td:nth-child(3) {
-  width: 44%;
+  width: 14%;
+}
+
+.lupaxa-table--examples table:not([class]) th:nth-child(4),
+.lupaxa-table--examples table:not([class]) td:nth-child(4) {
+  width: 18%;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.lupaxa-table--examples table:not([class]) th:nth-child(5),
+.lupaxa-table--examples table:not([class]) td:nth-child(5) {
+  width: 22%;
 }
 
 /* Command | Description — leave room for dual targets like `make init` / `make install` */
 .lupaxa-table--commands table:not([class]) th:nth-child(1),
 .lupaxa-table--commands table:not([class]) td:nth-child(1) {
-  width: 40%;
+  width: 36%;
 }
 
 .lupaxa-table--commands table:not([class]) th:nth-child(2),
 .lupaxa-table--commands table:not([class]) td:nth-child(2) {
-  width: 60%;
+  width: 64%;
+}
+
+/* Config key | Make variable | Default | Description */
+.lupaxa-table--config table:not([class]) th:nth-child(1),
+.lupaxa-table--config table:not([class]) td:nth-child(1) {
+  width: 14%;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.lupaxa-table--config table:not([class]) th:nth-child(2),
+.lupaxa-table--config table:not([class]) td:nth-child(2) {
+  width: 24%;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.lupaxa-table--config table:not([class]) th:nth-child(3),
+.lupaxa-table--config table:not([class]) td:nth-child(3) {
+  width: 26%;
+}
+
+.lupaxa-table--config table:not([class]) th:nth-child(4),
+.lupaxa-table--config table:not([class]) td:nth-child(4) {
+  width: 36%;
 }
 
 /* Variable | Default | Description */
 .lupaxa-table--vars-desc table:not([class]) th:nth-child(1),
 .lupaxa-table--vars-desc table:not([class]) td:nth-child(1) {
-  width: 22%;
+  width: 24%;
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 
 .lupaxa-table--vars-desc table:not([class]) th:nth-child(2),
 .lupaxa-table--vars-desc table:not([class]) td:nth-child(2) {
-  width: 48%;
+  width: 28%;
 }
 
 .lupaxa-table--vars-desc table:not([class]) th:nth-child(3),
 .lupaxa-table--vars-desc table:not([class]) td:nth-child(3) {
-  width: 30%;
+  width: 48%;
 }
 
 /* Variable | Default */
 .lupaxa-table--vars table:not([class]) th:nth-child(1),
 .lupaxa-table--vars table:not([class]) td:nth-child(1) {
-  width: 40%;
+  width: 32%;
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 
 .lupaxa-table--vars table:not([class]) th:nth-child(2),
 .lupaxa-table--vars table:not([class]) td:nth-child(2) {
-  width: 60%;
+  width: 68%;
 }

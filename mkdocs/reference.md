@@ -21,7 +21,7 @@ Consumer-editable knobs at the repository root. Syntax: `key = value` with `#`
 comments. Created by `make init` when missing; never overwritten by `make update`.
 Unknown keys are a hard error.
 
-<div class="lupaxa-table lupaxa-table--vars-desc" markdown="1">
+<div class="lupaxa-table lupaxa-table--config" markdown="1">
 
 | Config key | Make variable | Default | Description |
 | --- | --- | --- | --- |

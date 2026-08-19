@@ -7,7 +7,7 @@ except where noted below.
 
 <div class="lupaxa-table lupaxa-table--examples" markdown="1">
 
-| Wrapper | Config | `skills` | `update_wrapper` | Use when |
+| Wrapper | Config | skills | update_wrapper | Use when |
 | --- | --- | --- | --- | --- |
 | `Makefile.versioning-only` | `makefiles.config.versioning-only` | _(empty)_ | `yes` | Version bumps only |
 | `Makefile.python` | `makefiles.config.python` | `python` | `no` | Python package / app |
