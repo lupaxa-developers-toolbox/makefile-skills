@@ -158,8 +158,7 @@ _makefiles-checkout:
 	mf_git_quiet git -C "$(MAKEFILES_DIR)" sparse-checkout set --no-cone \
 		'/skills/**' '/templates/Makefile' '/templates/makefiles.config'; \
 	if [ "$(MAKEFILES_REF)" = "head" ]; then \
-		mf_git_quiet git -C "$(MAKEFILES_DIR)" checkout -q -f master; \
-		mf_git_quiet git -C "$(MAKEFILES_DIR)" pull -q --ff-only origin master; \
+		mf_git_quiet git -C "$(MAKEFILES_DIR)" checkout -q -B master origin/master; \
 	else \
 		mf_git_quiet git -C "$(MAKEFILES_DIR)" checkout -q -f "$(MAKEFILES_REF)"; \
 	fi; \

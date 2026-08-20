@@ -118,6 +118,23 @@ echo "# keep me" >> "$CONSUMER/Makefile"
 make -C "$CONSUMER" update MAKEFILES_REPO="$BARE"
 assert_contains "$(cat "$CONSUMER/Makefile")" "# keep me"
 
+# Diverged local master (e.g. after upstream history rewrite) must still update.
+# Old recipe used pull --ff-only and failed with git exit 128.
+git -C "$CONSUMER/.makefiles" checkout -q master
+_orphan_tree="$(git -C "$CONSUMER/.makefiles" rev-parse 'HEAD^{tree}')"
+_orphan="$(git -C "$CONSUMER/.makefiles" commit-tree "$_orphan_tree" -m "orphan diverge")"
+git -C "$CONSUMER/.makefiles" reset --hard "$_orphan"
+set +e
+_pull_err="$(git -C "$CONSUMER/.makefiles" pull --ff-only origin master 2>&1)"
+_pull_rc=$?
+set -e
+test "$_pull_rc" -ne 0
+assert_contains "$_pull_err" "Not possible to fast-forward"
+make -C "$CONSUMER" update MAKEFILES_REPO="$BARE"
+test -f "$CONSUMER/.makefiles/skills/versioning.mk"
+test "$(git -C "$CONSUMER/.makefiles" rev-parse HEAD)" = \
+  "$(git -C "$CONSUMER/.makefiles" rev-parse origin/master)"
+
 # CLI beats config; config alone sets SKILLS
 # Intentional: write a Make recipe that expands $(SKILLS) at make-time.
 # shellcheck disable=SC2016
