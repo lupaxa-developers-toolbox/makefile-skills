@@ -12,6 +12,16 @@ AUDIT_VENV_DIR ?= .audit-env
 AUDIT_PYTHON := $(AUDIT_VENV_DIR)/bin/python
 PYPROJECT_FILE ?= pyproject.toml
 
+# Overridable install / path knobs. Defaults preserve the single-package layout.
+# Multi-package workspaces set these in .makefiles-custom (no recipe overrides).
+PIP_INSTALL_DEV ?= -e ".[dev]"
+PIP_INSTALL_TEST ?= -e ".[test]"
+PYTHON_RUFF_PATHS ?= $(SRC_DIR) $(TEST_DIR)
+# Default: type-check SRC_DIR. Set empty to rely on [tool.mypy] files in pyproject.
+MYPY_ARGS ?= $(SRC_DIR)
+# Space-separated package dirs (each with its own pyproject). Empty = hatch at root.
+PYTHON_PACKAGE_DIRS ?=
+
 STATUS_FRAGMENTS += status-python
 
 .PHONY: help-python status-python python-doctor python-install-dev python-install-test python-lint python-check-style python-check-diff python-check-diff-all python-format python-format-diff python-type python-test python-test-cov python-check python-check-all python-audit python-build python-publish python-clean
@@ -126,30 +136,30 @@ python-doctor:
 	mf_msg_ok "Python doctor: OK"
 
 python-install-dev:
-	$(PIP) install -e ".[dev]"
+	$(PIP) install $(PIP_INSTALL_DEV)
 
 python-install-test:
-	$(PIP) install -e ".[test]"
+	$(PIP) install $(PIP_INSTALL_TEST)
 
 python-lint:
-	$(RUFF) check "$(SRC_DIR)" "$(TEST_DIR)"
-	$(RUFF) format --check "$(SRC_DIR)" "$(TEST_DIR)"
+	$(RUFF) check $(PYTHON_RUFF_PATHS)
+	$(RUFF) format --check $(PYTHON_RUFF_PATHS)
 
 python-check-style: python-lint python-type
 
 python-check-diff:
-	$(RUFF) check --diff "$(SRC_DIR)" "$(TEST_DIR)"
+	$(RUFF) check --diff $(PYTHON_RUFF_PATHS)
 
 python-check-diff-all: python-check-diff python-format-diff
 
 python-format:
-	$(RUFF) format "$(SRC_DIR)" "$(TEST_DIR)"
+	$(RUFF) format $(PYTHON_RUFF_PATHS)
 
 python-format-diff:
-	$(RUFF) format --diff "$(SRC_DIR)" "$(TEST_DIR)"
+	$(RUFF) format --diff $(PYTHON_RUFF_PATHS)
 
 python-type:
-	$(MYPY) "$(SRC_DIR)"
+	$(MYPY) $(MYPY_ARGS)
 
 python-test:
 	$(PYTEST) -v
@@ -171,14 +181,22 @@ python-audit:
 	trap 'rm -rf "$(AUDIT_VENV_DIR)"' EXIT HUP INT TERM; \
 	"$(PYTHON)" -m venv "$(AUDIT_VENV_DIR)"; \
 	"$(AUDIT_PYTHON)" -m pip install --upgrade pip; \
-	"$(AUDIT_PYTHON)" -m pip install -e ".[dev]"; \
+	"$(AUDIT_PYTHON)" -m pip install $(PIP_INSTALL_DEV); \
 	"$(AUDIT_PYTHON)" -m pip install pip-audit; \
 	echo "==> Running dependency audit"; \
 	"$(AUDIT_PYTHON)" -m pip_audit; \
 	echo "==> Dependency audit complete"
 
 python-build:
-	$(HATCH) build
+	@set -e; \
+	if [ -z "$(strip $(PYTHON_PACKAGE_DIRS))" ]; then \
+		$(HATCH) build; \
+	else \
+		for pkg in $(PYTHON_PACKAGE_DIRS); do \
+			echo "==> Building $$pkg"; \
+			( cd "$$pkg" && $(HATCH) build ); \
+		done; \
+	fi
 
 python-publish: python-build
 	$(HATCH) publish

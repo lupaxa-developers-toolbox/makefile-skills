@@ -139,6 +139,11 @@ Enable with `skills = python` in `makefiles.config`.
 | `SRC_DIR` | `src` |
 | `TEST_DIR` | `tests` |
 | `PYPROJECT_FILE` | `pyproject.toml` |
+| `PIP_INSTALL_DEV` | `-e ".[dev]"` |
+| `PIP_INSTALL_TEST` | `-e ".[test]"` |
+| `PYTHON_RUFF_PATHS` | `$(SRC_DIR) $(TEST_DIR)` |
+| `MYPY_ARGS` | `$(SRC_DIR)` (set empty to use `[tool.mypy] files`) |
+| `PYTHON_PACKAGE_DIRS` | empty (`hatch build` at root; set for multi-package) |
 | `PYTHON` / `RUFF` / `MYPY` / `PYTEST` / `HATCH` | tool names on `PATH` |
 
 </div>
