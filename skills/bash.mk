@@ -18,13 +18,13 @@ STATUS_FRAGMENTS += status-bash
 
 help-bash:
 	$(call mf_help_header,Bash:)
-	@echo "  bash-doctor        Check Bash tools and script discovery"
-	@echo "  bash-list-scripts  List discovered Bash scripts"
-	@echo "  bash-syntax        Validate Bash syntax using bash -n"
-	@echo "  bash-shellcheck    Analyse Bash scripts using ShellCheck"
-	@echo "  bash-lint          Alias of bash-shellcheck"
-	@echo "  bash-test          Run Bash syntax validation and ShellCheck"
-	@echo "  bash-check         Run the complete Bash validation workflow"
+	$(call mf_help_line,bash-doctor,Check Bash tools and script discovery)
+	$(call mf_help_line,bash-list-scripts,List discovered Bash scripts)
+	$(call mf_help_line,bash-syntax,Validate Bash syntax using bash -n)
+	$(call mf_help_line,bash-shellcheck,Analyse Bash scripts using ShellCheck)
+	$(call mf_help_line,bash-lint,Alias of bash-shellcheck)
+	$(call mf_help_line,bash-test,Run Bash syntax validation and ShellCheck)
+	$(call mf_help_line,bash-check,Run the complete Bash validation workflow)
 	@echo
 	@echo "  Discovery uses .sh/.bash suffixes, shebang lines, and file(1)"
 	@echo "  (including extensionless commands). Override with SHELL_SOURCE_DIR"

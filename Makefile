@@ -3,7 +3,7 @@
 
 MAKEFILES_MODE := library
 MAKEFILES_DIR  := .
-SKILLS         ?= mkdocs bash
+SKILLS         ?= bash mkdocs python ruby
 
 include templates/Makefile
 

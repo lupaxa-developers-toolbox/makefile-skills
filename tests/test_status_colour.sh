@@ -70,12 +70,13 @@ out="$(FORCE_COLOR=1 make -C "$TMP/legacy-consumer" status 2>&1)"
 assert_not_contains "$out" "mf_color_init: command not found"
 assert_contains "$out" $'\033[96m'
 
-# make help: cyan section headers; NO_COLOR stays plain
+# make help: cyan section headers + green commands; NO_COLOR stays plain
 out="$(FORCE_COLOR=1 make -C "$TMP/consumer" help 2>&1)"
 assert_contains "$out" "Lifecycle:"
 assert_contains "$out" "Status:"
 assert_contains "$out" "Versioning:"
 assert_contains "$out" $'\033[96m'
+assert_contains "$out" $'\033[32m'
 out="$(NO_COLOR=1 make -C "$TMP/consumer" help 2>&1)"
 assert_contains "$out" "Lifecycle:"
 if printf '%s' "$out" | grep -q $'\033'; then

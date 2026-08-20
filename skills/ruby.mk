@@ -21,17 +21,17 @@ STATUS_FRAGMENTS += status-ruby
 
 help-ruby:
 	$(call mf_help_header,Ruby:)
-	@echo "  ruby-doctor       Check Ruby tools and project layout"
-	@echo "  ruby-bundle       Install dependencies from Gemfile"
-	@echo "  ruby-lint         Run RuboCop"
-	@echo "  ruby-format       RuboCop unsafe autocorrect (-A)"
-	@echo "  ruby-check-diff   Show correctable RuboCop offences"
-	@echo "  ruby-test         Run rake test"
-	@echo "  ruby-check        Run lint and tests"
-	@echo "  ruby-check-all    Alias of ruby-check"
-	@echo "  ruby-build        Build the project gem"
-	@echo "  ruby-publish      Build and publish the project gem"
-	@echo "  ruby-clean        Remove Ruby build and test artefacts"
+	$(call mf_help_line,ruby-doctor,Check Ruby tools and project layout)
+	$(call mf_help_line,ruby-bundle,Install dependencies from Gemfile)
+	$(call mf_help_line,ruby-lint,Run RuboCop)
+	$(call mf_help_line,ruby-format,RuboCop unsafe autocorrect (-A))
+	$(call mf_help_line,ruby-check-diff,Show correctable RuboCop offences)
+	$(call mf_help_line,ruby-test,Run rake test)
+	$(call mf_help_line,ruby-check,Run lint and tests)
+	$(call mf_help_line,ruby-check-all,Alias of ruby-check)
+	$(call mf_help_line,ruby-build,Build the project gem)
+	$(call mf_help_line,ruby-publish,Build and publish the project gem)
+	$(call mf_help_line,ruby-clean,Remove Ruby build and test artefacts)
 	@echo
 
 status-ruby:

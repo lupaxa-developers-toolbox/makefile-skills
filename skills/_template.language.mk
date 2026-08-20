@@ -45,12 +45,12 @@ STATUS_FRAGMENTS += status-lang
 
 help-lang:
 	$(call mf_help_header,Lang:)
-	@echo "  lang-doctor         Check Lang tools and project layout"
-	@echo "  lang-lint           Lint Lang sources (stub — implement me)"
-	@echo "  lang-test           Run Lang tests (stub — implement me)"
-	@echo "  lang-check          lint + test"
-	@echo "  lang-build          Build Lang artefacts (stub — implement me)"
-	@echo "  lang-clean          Remove Lang build artefacts (stub — implement me)"
+	$(call mf_help_line,lang-doctor,Check Lang tools and project layout)
+	$(call mf_help_line,lang-lint,Lint Lang sources (stub — implement me))
+	$(call mf_help_line,lang-test,Run Lang tests (stub — implement me))
+	$(call mf_help_line,lang-check,lint + test)
+	$(call mf_help_line,lang-build,Build Lang artefacts (stub — implement me))
+	$(call mf_help_line,lang-clean,Remove Lang build artefacts (stub — implement me))
 	@echo
 	@echo "  This is a skill template. Replace lang/Lang and stub recipes."
 	@echo

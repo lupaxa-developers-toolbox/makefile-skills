@@ -28,24 +28,24 @@ STATUS_FRAGMENTS += status-python
 
 help-python:
 	$(call mf_help_header,Python:)
-	@echo "  python-doctor       Check Python tools and project layout"
-	@echo "  python-install-dev  Install editable with dev extras"
-	@echo "  python-install-test Install editable with test extras"
-	@echo "  python-lint         Ruff lint + format check"
-	@echo "  python-check-style  Lint + type"
-	@echo "  python-check-diff   Show Ruff lint corrections"
-	@echo "  python-check-diff-all Show lint and format changes"
-	@echo "  python-format       Ruff format"
-	@echo "  python-format-diff  Show Ruff formatting changes"
-	@echo "  python-type         mypy"
-	@echo "  python-test         pytest"
-	@echo "  python-test-cov     pytest with coverage"
-	@echo "  python-check        lint + type + test"
-	@echo "  python-check-all    lint + type + test-cov + audit"
-	@echo "  python-audit        pip-audit in isolated venv"
-	@echo "  python-build        Hatch build"
-	@echo "  python-publish      Hatch publish"
-	@echo "  python-clean        Remove Python artefacts"
+	$(call mf_help_line,python-doctor,Check Python tools and project layout)
+	$(call mf_help_line,python-install-dev,Install editable with dev extras)
+	$(call mf_help_line,python-install-test,Install editable with test extras)
+	$(call mf_help_line,python-lint,Ruff lint + format check)
+	$(call mf_help_line,python-check-style,Lint + type)
+	$(call mf_help_line,python-check-diff,Show Ruff lint corrections)
+	$(call mf_help_line,python-check-diff-all,Show lint and format changes)
+	$(call mf_help_line,python-format,Ruff format)
+	$(call mf_help_line,python-format-diff,Show Ruff formatting changes)
+	$(call mf_help_line,python-type,mypy)
+	$(call mf_help_line,python-test,pytest)
+	$(call mf_help_line,python-test-cov,pytest with coverage)
+	$(call mf_help_line,python-check,lint + type + test)
+	$(call mf_help_line,python-check-all,lint + type + test-cov + audit)
+	$(call mf_help_line,python-audit,pip-audit in isolated venv)
+	$(call mf_help_line,python-build,Hatch build)
+	$(call mf_help_line,python-publish,Hatch publish)
+	$(call mf_help_line,python-clean,Remove Python artefacts)
 	@echo
 
 status-python:

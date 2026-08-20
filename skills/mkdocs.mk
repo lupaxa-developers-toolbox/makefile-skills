@@ -9,10 +9,10 @@ STATUS_FRAGMENTS += status-mkdocs
 
 help-mkdocs:
 	$(call mf_help_header,Documentation (MkDocs):)
-	@echo "  mkdocs-doctor       Check MkDocs config and tools"
-	@echo "  mkdocs-build        Build the static MkDocs site"
-	@echo "  mkdocs-serve        Serve MkDocs with live reload"
-	@echo "  mkdocs-clean        Remove the generated site/ directory"
+	$(call mf_help_line,mkdocs-doctor,Check MkDocs config and tools)
+	$(call mf_help_line,mkdocs-build,Build the static MkDocs site)
+	$(call mf_help_line,mkdocs-serve,Serve MkDocs with live reload)
+	$(call mf_help_line,mkdocs-clean,Remove the generated site/ directory)
 	@echo
 	@echo "  mkdocs-serve uses $(MKDOCS_HOST):$(MKDOCS_PORT) by default."
 	@echo "  Override with MKDOCS_PORT / MKDOCS_HOST, e.g.:"

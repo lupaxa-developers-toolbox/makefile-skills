@@ -71,6 +71,25 @@ mf_color_init; \
 mf_title "$(1)"
 endef
 
+# Fixed-width command column so descriptions line up across all help sections.
+# Longest current target: python-check-diff-all (21). Override with MF_HELP_CMD_WIDTH if needed.
+MF_HELP_CMD_WIDTH ?= 22
+mf_comma := ,
+
+# Usage: $(call mf_help_line,target-name,Description text)
+# Commas in descriptions must be written as $$(mf_comma) (Make splits call args on ,).
+# Command column is green when colour is enabled (pad plain text, then wrap ANSI).
+define mf_help_line
+@$(mf_color_prelude) \
+mf_color_init; \
+printf '  %s%-*s%s %s\n' "$$MF_GREEN" $(MF_HELP_CMD_WIDTH) "$(1)" "$$MF_RESET" "$(2)"
+endef
+
+# Description continuation (blank command column, same width).
+define mf_help_cont
+@printf '  %-*s %s\n' $(MF_HELP_CMD_WIDTH) "" "$(1)"
+endef
+
 .PHONY: bump-patch bump-minor bump-major bump-patch-dev bump-minor-dev bump-major-dev bump-dev \
 	bump-patch-rc bump-minor-rc bump-major-rc bump-rc release bump-final draft-tag \
 	doctor doctor-versioning help-versioning show-version-flow status version
@@ -79,29 +98,29 @@ endef
 # consumer wrapper's help text is outdated.
 help-versioning:
 	$(call mf_help_header,Status:)
-	@echo "  status              Show project, version, Git, and enabled-skill status"
-	@echo "  doctor              Run all doctors (lifecycle + versioning + enabled skills)"
+	$(call mf_help_line,status,Show project$(mf_comma) version$(mf_comma) Git$(mf_comma) and enabled-skill status)
+	$(call mf_help_line,doctor,Run all doctors (lifecycle + versioning + enabled skills))
 	@echo
 	$(call mf_help_header,Versioning:)
-	@echo "  version             Show the current project version"
-	@echo "  show-version-flow   Show the version stage and valid next steps"
-	@echo "  bump-patch          Bump to the next stable patch (X.Y.Z+1)"
-	@echo "  bump-minor          Bump to the next stable minor (X.Y+1.0)"
-	@echo "  bump-major          Bump to the next stable major (X+1.0.0)"
-	@echo "  bump-dev            Alias of bump-patch-dev"
-	@echo "  bump-patch-dev      Start/continue patch -devN"
-	@echo "  bump-minor-dev      Start/continue minor -devN"
-	@echo "  bump-major-dev      Start/continue major -devN"
-	@echo "  bump-rc             Alias of bump-patch-rc"
-	@echo "  bump-patch-rc       Start patch -rc1 from stable/dev, or bump -rcN"
-	@echo "  bump-minor-rc       Start minor -rc1 from stable/dev, or bump -rcN"
-	@echo "  bump-major-rc       Start major -rc1 from stable/dev, or bump -rcN"
-	@echo "  release             Publish -rcN as stable"
-	@echo "  bump-final          Alias of release"
-	@echo "  doctor-versioning   Check versioning config and tools"
+	$(call mf_help_line,version,Show the current project version)
+	$(call mf_help_line,show-version-flow,Show the version stage and valid next steps)
+	$(call mf_help_line,bump-patch,Bump to the next stable patch (X.Y.Z+1))
+	$(call mf_help_line,bump-minor,Bump to the next stable minor (X.Y+1.0))
+	$(call mf_help_line,bump-major,Bump to the next stable major (X+1.0.0))
+	$(call mf_help_line,bump-dev,Alias of bump-patch-dev)
+	$(call mf_help_line,bump-patch-dev,Start/continue patch -devN)
+	$(call mf_help_line,bump-minor-dev,Start/continue minor -devN)
+	$(call mf_help_line,bump-major-dev,Start/continue major -devN)
+	$(call mf_help_line,bump-rc,Alias of bump-patch-rc)
+	$(call mf_help_line,bump-patch-rc,Start patch -rc1 from stable/dev$(mf_comma) or bump -rcN)
+	$(call mf_help_line,bump-minor-rc,Start minor -rc1 from stable/dev$(mf_comma) or bump -rcN)
+	$(call mf_help_line,bump-major-rc,Start major -rc1 from stable/dev$(mf_comma) or bump -rcN)
+	$(call mf_help_line,release,Publish -rcN as stable)
+	$(call mf_help_line,bump-final,Alias of release)
+	$(call mf_help_line,doctor-versioning,Check versioning config and tools)
 	@echo
 	$(call mf_help_header,GitHub packaging (does not change current_version):)
-	@echo "  draft-tag           Create next vX.Y.Z-draftN tag at HEAD for draft releases"
+	$(call mf_help_line,draft-tag,Create next vX.Y.Z-draftN tag at HEAD for draft releases)
 	@echo
 
 # Top-level doctor lives in skills so `make doctor` works after init/update
