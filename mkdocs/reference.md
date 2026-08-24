@@ -25,7 +25,7 @@ Unknown keys are a hard error.
 
 | Config key | Make variable | Default | Description |
 | --- | --- | --- | --- |
-| `skills` | `SKILLS` | _(empty)_ | Optional skills: `python`, `mkdocs`, `bash`, `ruby` (space-separated) |
+| `skills` | `SKILLS` | _(empty)_ | Optional skills: `python`, `mkdocs`, `bash`, `ruby`, `perl`, `php` (space-separated) |
 | `ref` | `MAKEFILES_REF` | `head` | `head` → tip of `master`, or a tag such as `v1.0.0` |
 | `transport` | `MAKEFILES_TRANSPORT` | `https` | `ssh`, `https`, or `http` (https default so public consumers need no org SSH) |
 | `repo_ssh` | `MAKEFILES_REPO_SSH` | `git@github.com:lupaxa-developers-toolbox/makefile-skills.git` | SSH clone URL |
@@ -254,6 +254,79 @@ they are not wrapped in Bundler.
 | `RUBOCOP_ARGS` | _(empty)_ |
 
 </div>
+
+## Perl skill
+
+Enable with `skills = perl` in `makefiles.config`.
+
+<div class="lupaxa-table lupaxa-table--commands" markdown="1">
+
+| Command | Description |
+| --- | --- |
+| `make perl-doctor` | Check `SRC_DIR`, Perl tools, and source discovery |
+| `make perl-syntax` | Run `perl -c` on each file in `PERL_FILES` |
+| `make perl-critic` | Run Perl::Critic against `SRC_DIR` |
+| `make perl-lint` | Run syntax validation and Perl::Critic |
+| `make perl-check` | Alias of `perl-lint` |
+
+</div>
+
+### Perl variables
+
+<div class="lupaxa-table lupaxa-table--vars" markdown="1">
+
+| Variable | Default |
+| --- | --- |
+| `PERL` | `perl` |
+| `PERLCRITIC` | `perlcritic` |
+| `SRC_DIR` | `.` |
+| `PERL_FILES` | `*.pl` and `*.pm` discovered under `SRC_DIR` |
+| `PERLCRITIC_FLAGS` | _(empty)_ |
+
+</div>
+
+Discovery is hybrid: `perl-syntax` uses `PERL_FILES`, while `perl-critic`
+passes `SRC_DIR` to Perl::Critic so `.perlcriticrc` can control the analysed
+tree. Override `PERL_FILES` for syntax-only exceptions. The v1 skill does not
+provide test, build, publish, or format targets.
+
+## PHP skill
+
+Enable with `skills = php` in `makefiles.config`.
+
+<div class="lupaxa-table lupaxa-table--commands" markdown="1">
+
+| Command | Description |
+| --- | --- |
+| `make php-doctor` | Check `SRC_DIR`, PHP tools, and source discovery |
+| `make php-syntax` | Run `php -l` on each file in `PHP_FILES` |
+| `make php-cs` | Run PHP_CodeSniffer against `SRC_DIR` |
+| `make php-stan` | Run `phpstan analyse` against `SRC_DIR` |
+| `make php-lint` | Run syntax, PHP_CodeSniffer, and PHPStan checks |
+| `make php-check` | Alias of `php-lint` |
+
+</div>
+
+### PHP variables
+
+<div class="lupaxa-table lupaxa-table--vars" markdown="1">
+
+| Variable | Default |
+| --- | --- |
+| `PHP` | `php` |
+| `PHPCS` | `phpcs` |
+| `PHPSTAN` | `phpstan` |
+| `SRC_DIR` | `.` |
+| `PHP_FILES` | `*.php` discovered under `SRC_DIR` |
+| `PHPCS_FLAGS` | _(empty)_ |
+| `PHPSTAN_FLAGS` | _(empty)_ |
+
+</div>
+
+Discovery is hybrid: `php-syntax` uses `PHP_FILES`, while `php-cs` and
+`php-stan` pass `SRC_DIR` to their tools so project configuration controls the
+analysed tree. Override `PHP_FILES` for syntax-only exceptions. The v1 skill
+does not provide test, build, publish, or format targets.
 
 ## Repository layout (this library)
 

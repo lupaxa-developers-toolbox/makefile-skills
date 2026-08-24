@@ -8,9 +8,10 @@ make doctor
 
 `make doctor` is the top-level check: lifecycle (clone/transport), then
 `doctor-versioning`, then each enabled skill doctor (`python-doctor`,
-`mkdocs-doctor`, `bash-doctor`, `ruby-doctor`, …). Every section runs even if an earlier one
-fails; the command exits non-zero only after the full report if any section
-had issues. You can still run any skill doctor on its own (those fail fast).
+`mkdocs-doctor`, `bash-doctor`, `ruby-doctor`, `perl-doctor`, `php-doctor`,
+…). Every section runs even if an earlier one fails; the command exits
+non-zero only after the full report if any section had issues. You can still
+run any skill doctor on its own (those fail fast).
 
 ```bash
 make status
@@ -193,6 +194,51 @@ run through `bundle exec` (`RUBY_RUN`). `ruby-format` uses RuboCop `-A`
 `gem push` directly — not wrapped in Bundler. When the repo has multiple
 `*.gemspec` files, set an explicit path, e.g.
 `GEMSPEC=my_project.gemspec`.
+
+## Perl skill
+
+Enable with `skills = perl` in `makefiles.config`.
+
+```bash
+make perl-doctor
+make perl-syntax
+make perl-critic
+make perl-check          # syntax + Perl::Critic
+```
+
+`perl-syntax` checks `PERL_FILES` (by default, `*.pl` and `*.pm` below
+`SRC_DIR`). `perl-critic` analyses `SRC_DIR`, leaving tree selection to
+`.perlcriticrc`. Override either input when needed:
+
+```bash
+make perl-syntax PERL_FILES="bin/tool lib/App.pm"
+make perl-critic SRC_DIR=lib PERLCRITIC_FLAGS="--severity 3"
+```
+
+The v1 Perl skill has no test, build, publish, or format target.
+
+## PHP skill
+
+Enable with `skills = php` in `makefiles.config`.
+
+```bash
+make php-doctor
+make php-syntax
+make php-cs
+make php-stan
+make php-check           # syntax + PHP_CodeSniffer + PHPStan
+```
+
+`php-syntax` checks `PHP_FILES` (by default, `*.php` below `SRC_DIR`).
+`php-cs` and `php-stan` analyse `SRC_DIR`, leaving tree selection to each
+tool's project configuration. Override either input when needed:
+
+```bash
+make php-syntax PHP_FILES="src/App.php public/index.php"
+make php-check SRC_DIR=src PHPCS_FLAGS="--standard=PSR12" PHPSTAN_FLAGS="--level=8"
+```
+
+The v1 PHP skill has no test, build, publish, or format target.
 
 ## Switching SSH and HTTPS
 

@@ -6,7 +6,8 @@
 - Git
 - Network access to clone this library (SSH or HTTPS)
 - Skill-specific tools as needed (`bump-my-version`, Python toolchain, MkDocs,
-  ShellCheck, …) — use `make doctor` after init to verify
+  ShellCheck, Perl::Critic, PHP_CodeSniffer, PHPStan, …) — use `make doctor`
+  after init to verify
 
 ## Adopt the wrapper
 
@@ -32,7 +33,9 @@
    ```
 
    Versioning is always available. Optional skills are `python`, `mkdocs`,
-   `bash`, and `ruby`.
+   `bash`, `ruby`, `perl`, and `php`. Use `skills = perl` or `skills = php`
+   for the corresponding validation skill; list multiple skills separated by
+   spaces.
 
 5. Inspect:
 

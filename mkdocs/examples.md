@@ -14,6 +14,8 @@ except where noted below.
 | `Makefile.python-docs` | `makefiles.config.python-docs` | `python mkdocs` | `no` | Python project with MkDocs |
 | `Makefile.bash-project` | `makefiles.config.bash-project` | `bash` | `yes` | Shell-script repositories |
 | `Makefile.ruby` | `makefiles.config.ruby` | `ruby` | `yes` | Ruby gem / library projects |
+| `Makefile.perl` | `makefiles.config.perl` | `perl` | `yes` | Perl scripts and modules |
+| `Makefile.php` | `makefiles.config.php` | `php` | `yes` | PHP applications and libraries |
 
 </div>
 
@@ -112,6 +114,40 @@ cp examples/makefiles.config.ruby ./makefiles.config
 make init
 make ruby-bundle
 make ruby-check
+```
+
+## Perl
+
+`makefiles.config.perl`:
+
+```ini
+skills = perl
+update_wrapper = yes
+```
+
+```bash
+cp examples/Makefile.perl ./Makefile
+cp examples/makefiles.config.perl ./makefiles.config
+make init
+make perl-doctor
+make perl-check
+```
+
+## PHP
+
+`makefiles.config.php`:
+
+```ini
+skills = php
+update_wrapper = yes
+```
+
+```bash
+cp examples/Makefile.php ./Makefile
+cp examples/makefiles.config.php ./makefiles.config
+make init
+make php-doctor
+make php-check
 ```
 
 !!! tip "Ignore the clone"

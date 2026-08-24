@@ -100,6 +100,12 @@ assert_config_skills "makefiles.config.bash-project" \
 assert_config_skills "makefiles.config.ruby" \
   "$EXAMPLES_DIR/makefiles.config.ruby" "ruby"
 
+assert_config_skills "makefiles.config.perl" \
+  "$EXAMPLES_DIR/makefiles.config.perl" "perl"
+
+assert_config_skills "makefiles.config.php" \
+  "$EXAMPLES_DIR/makefiles.config.php" "php"
+
 assert_config_skills "makefiles.config.python" \
   "$EXAMPLES_DIR/makefiles.config.python" "python" "no"
 

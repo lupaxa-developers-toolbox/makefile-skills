@@ -1,7 +1,8 @@
 # makefile-skills
 
 Reusable **Makefile skills** for project versioning, Python quality tooling,
-MkDocs documentation, Bash validation, and Ruby gem workflows.
+MkDocs documentation, Bash validation, Ruby gem workflows, and Perl/PHP
+validation.
 
 Each consumer project keeps a thin wrapper `Makefile` and a `makefiles.config`
 file. The wrapper clones this library into a gitignored `.makefiles/` directory,
@@ -27,12 +28,14 @@ lets you refresh them with `make update`, while each project commits its wrapper
 | MkDocs | Optional | Build and serve docs (`mkdocs-serve` supports custom ports) |
 | Bash | Optional | Discover scripts, `bash -n`, ShellCheck |
 | Ruby | Optional | Bundler install, RuboCop, `rake test`, gem build/publish |
+| Perl | Optional | `perl -c` syntax checks and Perl::Critic |
+| PHP | Optional | `php -l`, PHP_CodeSniffer, and PHPStan |
 
 </div>
 
 ## Next steps
 
 - [Getting started](getting-started.md) — copy the wrapper, `make init`, edit config
-- [Usage](usage.md) — day-to-day workflows (`doctor`, bumps, Python, docs, Bash, Ruby)
+- [Usage](usage.md) — day-to-day workflows (`doctor`, bumps, and language skills)
 - [Reference](reference.md) — commands, config keys, and variables
 - [Examples](examples.md) — ready-made wrapper and config profiles

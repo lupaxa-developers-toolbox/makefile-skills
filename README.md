@@ -6,8 +6,8 @@
 
 <h1 align="center">Makefile Skills</h1>
 
-Reusable Makefile skills for project versioning, Python, MkDocs, Bash, and Ruby
-workflows.
+Reusable Makefile skills for project versioning, Python, MkDocs, Bash, Ruby,
+Perl, and PHP workflows.
 
 ## Adopt the wrapper
 
@@ -28,7 +28,8 @@ workflows.
    ```
 
    Versioning is always available. Optional skills are `python`, `mkdocs`,
-   `bash`, and `ruby`. To add another language, copy
+   `bash`, `ruby`, `perl`, and `php`. Enable the new validation skills with
+   `skills = perl` or `skills = php`. To add another language, copy
    [`skills/_template.language.mk`](skills/_template.language.mk) to
    `skills/<id>.mk` and follow the checklist in that file.
 
@@ -135,6 +136,19 @@ Enable `ruby` for `make ruby-bundle`, `make ruby-lint`, `make ruby-format`,
 is present, lint, format, check-diff, test, and check run via `bundle exec`
 (`RUBY_RUN`); `ruby-format` uses RuboCop `-A` (unsafe autocorrect). `gem
 build` / `gem push` are not bundled.
+
+Enable `perl` for `make perl-doctor`, `make perl-syntax`,
+`make perl-critic`, `make perl-lint`, and `make perl-check`. Syntax checks use
+`PERL_FILES` (discovered below `SRC_DIR`); Perl::Critic analyses `SRC_DIR`.
+
+Enable `php` for `make php-doctor`, `make php-syntax`, `make php-cs`,
+`make php-stan`, `make php-lint`, and `make php-check`. Syntax checks use
+`PHP_FILES`; PHP_CodeSniffer and PHPStan analyse `SRC_DIR`.
+
+The Perl and PHP v1 skills intentionally have no test, build, publish, or
+format targets. Their tool commands and flags are overridable with `PERL`,
+`PERLCRITIC`, `PERLCRITIC_FLAGS`, `PHP`, `PHPCS`, `PHPCS_FLAGS`, `PHPSTAN`,
+and `PHPSTAN_FLAGS`.
 
 Run `make help` in a consumer project to see only the versioning commands and
 the optional skills selected in `makefiles.config`.
