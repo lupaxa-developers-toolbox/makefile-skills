@@ -1,174 +1,98 @@
 /* =============================================================================
  * Tables
+ *
+ * Material wraps tables in `.md-typeset__scrollwrap` > `.md-typeset__table` and
+ * defaults the table to `display: inline-block` with horizontal padding on the
+ * wrapper. That shrinks the visible table vs adjacent code blocks. Force the
+ * wrappers and table to the full content width, then apply column proportions.
  * ============================================================================= */
 
-/* Material wraps tables in scrollwrap + inline-block; force content-column width. */
 .md-typeset .md-typeset__scrollwrap {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  margin-left: 0;
-  margin-right: 0;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0;
 }
 
+/* Material: display:inline-block; padding:0 .8rem — padding is what leaves a
+   visible gap vs full-width code fences. */
 .md-typeset .md-typeset__table {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  padding: 0;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 0.5em;
+  padding: 0 !important;
+  box-sizing: border-box;
 }
 
+.md-typeset .md-typeset__table table,
 .md-typeset table:not([class]) {
-  display: table;
-  width: 100%;
-  max-width: 100%;
+  display: table !important;
+  width: 100% !important;
+  max-width: 100% !important;
   table-layout: fixed;
+  margin: 0 !important;
+  overflow: visible;
 }
 
 .md-typeset table:not([class]) th,
-.md-typeset table:not([class]) td {
-  overflow-wrap: break-word;
-  word-break: normal;
+.md-typeset table:not([class]) td,
+.md-typeset .md-typeset__table table th,
+.md-typeset .md-typeset__table table td {
   vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
 }
 
-.md-typeset table:not([class]) th {
+.md-typeset table:not([class]) th,
+.md-typeset .md-typeset__table table th {
   color: var(--lupaxa-white);
   background-color: var(--lupaxa-blue);
   border-color: color-mix(in srgb, var(--lupaxa-blue) 85%, var(--lupaxa-white));
   font-weight: 650;
 }
 
-/* Code in headers inherits header chrome (no dark code chip). */
-.md-typeset table:not([class]) th code {
-  color: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  font-weight: inherit;
-  padding: 0;
-}
-
-.md-typeset table:not([class]) th a {
+.md-typeset table:not([class]) th a,
+.md-typeset .md-typeset__table table th a {
   color: var(--lupaxa-white);
 }
 
-/* Typed tables: set column shares from content shape. */
-.lupaxa-table {
-  width: 100%;
+/* 2 columns — label | description */
+.md-typeset table:not([class]) tr > :nth-child(1):nth-last-child(2),
+.md-typeset .md-typeset__table table tr > :nth-child(1):nth-last-child(2) {
+  width: 32%;
 }
 
-/* Skill | Always on? | Purpose */
-.lupaxa-table--skills table:not([class]) th:nth-child(1),
-.lupaxa-table--skills table:not([class]) td:nth-child(1) {
-  width: 14%;
-  white-space: nowrap;
-  overflow-wrap: normal;
+.md-typeset table:not([class]) tr > :nth-child(2):nth-last-child(1),
+.md-typeset .md-typeset__table table tr > :nth-child(2):nth-last-child(1) {
+  width: 68%;
 }
 
-.lupaxa-table--skills table:not([class]) th:nth-child(2),
-.lupaxa-table--skills table:not([class]) td:nth-child(2) {
-  width: 16%;
-  white-space: nowrap;
-  overflow-wrap: normal;
-}
-
-.lupaxa-table--skills table:not([class]) th:nth-child(3),
-.lupaxa-table--skills table:not([class]) td:nth-child(3) {
-  width: 70%;
-}
-
-/* Wrapper | Config | skills | update_wrapper | Use when */
-.lupaxa-table--examples table:not([class]) th:nth-child(1),
-.lupaxa-table--examples table:not([class]) td:nth-child(1) {
-  width: 20%;
-}
-
-.lupaxa-table--examples table:not([class]) th:nth-child(2),
-.lupaxa-table--examples table:not([class]) td:nth-child(2) {
-  width: 26%;
-}
-
-.lupaxa-table--examples table:not([class]) th:nth-child(3),
-.lupaxa-table--examples table:not([class]) td:nth-child(3) {
-  width: 14%;
-}
-
-.lupaxa-table--examples table:not([class]) th:nth-child(4),
-.lupaxa-table--examples table:not([class]) td:nth-child(4) {
+/* 3 columns — key | meta | description */
+.md-typeset table:not([class]) tr > :nth-child(1):nth-last-child(3),
+.md-typeset .md-typeset__table table tr > :nth-child(1):nth-last-child(3) {
   width: 18%;
-  white-space: nowrap;
-  overflow-wrap: normal;
-  word-break: normal;
 }
 
-.lupaxa-table--examples table:not([class]) th:nth-child(5),
-.lupaxa-table--examples table:not([class]) td:nth-child(5) {
+.md-typeset table:not([class]) tr > :nth-child(2):nth-last-child(2),
+.md-typeset .md-typeset__table table tr > :nth-child(2):nth-last-child(2) {
   width: 22%;
 }
 
-/* Command | Description — leave room for dual targets like `make init` / `make install` */
-.lupaxa-table--commands table:not([class]) th:nth-child(1),
-.lupaxa-table--commands table:not([class]) td:nth-child(1) {
-  width: 36%;
+.md-typeset table:not([class]) tr > :nth-child(3):nth-last-child(1),
+.md-typeset .md-typeset__table table tr > :nth-child(3):nth-last-child(1) {
+  width: 60%;
 }
 
-.lupaxa-table--commands table:not([class]) th:nth-child(2),
-.lupaxa-table--commands table:not([class]) td:nth-child(2) {
-  width: 64%;
-}
-
-/* Config key | Make variable | Default | Description */
-.lupaxa-table--config table:not([class]) th:nth-child(1),
-.lupaxa-table--config table:not([class]) td:nth-child(1) {
-  width: 14%;
-  white-space: nowrap;
-  overflow-wrap: normal;
-}
-
-.lupaxa-table--config table:not([class]) th:nth-child(2),
-.lupaxa-table--config table:not([class]) td:nth-child(2) {
-  width: 24%;
-  white-space: nowrap;
-  overflow-wrap: normal;
-}
-
-.lupaxa-table--config table:not([class]) th:nth-child(3),
-.lupaxa-table--config table:not([class]) td:nth-child(3) {
-  width: 26%;
-}
-
-.lupaxa-table--config table:not([class]) th:nth-child(4),
-.lupaxa-table--config table:not([class]) td:nth-child(4) {
-  width: 36%;
-}
-
-/* Variable | Default | Description */
-.lupaxa-table--vars-desc table:not([class]) th:nth-child(1),
-.lupaxa-table--vars-desc table:not([class]) td:nth-child(1) {
-  width: 24%;
-  white-space: nowrap;
-  overflow-wrap: normal;
-}
-
-.lupaxa-table--vars-desc table:not([class]) th:nth-child(2),
-.lupaxa-table--vars-desc table:not([class]) td:nth-child(2) {
-  width: 28%;
-}
-
-.lupaxa-table--vars-desc table:not([class]) th:nth-child(3),
-.lupaxa-table--vars-desc table:not([class]) td:nth-child(3) {
-  width: 48%;
-}
-
-/* Variable | Default */
-.lupaxa-table--vars table:not([class]) th:nth-child(1),
-.lupaxa-table--vars table:not([class]) td:nth-child(1) {
-  width: 32%;
-  white-space: nowrap;
-  overflow-wrap: normal;
-}
-
-.lupaxa-table--vars table:not([class]) th:nth-child(2),
-.lupaxa-table--vars table:not([class]) td:nth-child(2) {
-  width: 68%;
+/* 4 columns — even split */
+.md-typeset table:not([class]) tr > :nth-child(1):nth-last-child(4),
+.md-typeset table:not([class]) tr > :nth-child(2):nth-last-child(3),
+.md-typeset table:not([class]) tr > :nth-child(3):nth-last-child(2),
+.md-typeset table:not([class]) tr > :nth-child(4):nth-last-child(1),
+.md-typeset .md-typeset__table table tr > :nth-child(1):nth-last-child(4),
+.md-typeset .md-typeset__table table tr > :nth-child(2):nth-last-child(3),
+.md-typeset .md-typeset__table table tr > :nth-child(3):nth-last-child(2),
+.md-typeset .md-typeset__table table tr > :nth-child(4):nth-last-child(1) {
+  width: 25%;
 }
