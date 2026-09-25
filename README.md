@@ -9,17 +9,17 @@
 Reusable Makefile skills for project versioning, Python, MkDocs, Bash, Ruby,
 Perl, and PHP workflows.
 
-## Adopt the wrapper
+## Adopt the Wrapper
 
-1. Copy [`templates/Makefile`](templates/Makefile) to your project root as
+1.   Copy [`templates/Makefile`](templates/Makefile) to your project root as
    `Makefile`.
-2. Add `.makefiles/` to the project's `.gitignore`. Commit the wrapper and
+2.   Add `.makefiles/` to the project's `.gitignore`. Commit the wrapper and
    `.gitignore`, but not the cloned skills library.
-3. Run `make init`. This sparse-clones the library into `.makefiles/` (only
+3.   Run `make init`. This sparse-clones the library into `.makefiles/` (only
    `skills/` and `templates/` — not this repo's MkDocs site, tests, or
    examples) and creates `makefiles.config` from the starter template when the
    file is missing.
-4. Edit `makefiles.config` for your project — for example:
+4.   Edit `makefiles.config` for your project — for example:
 
    ```ini
    skills = python mkdocs
@@ -60,15 +60,15 @@ plain text).
 Consumer-editable knobs live in `makefiles.config` at the repository root
 (`key = value` syntax, `#` comments). `make update` never overwrites this file.
 
-| Config key | Make variable | Default |
-| --- | --- | --- |
-| `skills` | `SKILLS` | _(empty)_ |
-| `ref` | `MAKEFILES_REF` | `head` |
-| `transport` | `MAKEFILES_TRANSPORT` | `https` (works without org SSH) |
-| `repo_ssh` | `MAKEFILES_REPO_SSH` | Lupaxa developers-toolbox SSH URL |
-| `repo_http` | `MAKEFILES_REPO_HTTP` | Lupaxa developers-toolbox HTTPS URL |
-| `custom_dir` | `MAKEFILES_CUSTOM_DIR` | `.makefiles-custom` |
-| `update_wrapper` | `MAKEFILES_UPDATE_WRAPPER` | `yes` |
+| Config key       | Make variable              | Default                             |
+| ---------------- | -------------------------- | ----------------------------------- |
+| `skills`         | `SKILLS`                   | *(empty)*                           |
+| `ref`            | `MAKEFILES_REF`            | `head`                              |
+| `transport`      | `MAKEFILES_TRANSPORT`      | `https` (works without org SSH)     |
+| `repo_ssh`       | `MAKEFILES_REPO_SSH`       | Lupaxa developers-toolbox SSH URL   |
+| `repo_http`      | `MAKEFILES_REPO_HTTP`      | Lupaxa developers-toolbox HTTPS URL |
+| `custom_dir`     | `MAKEFILES_CUSTOM_DIR`     | `.makefiles-custom`                 |
+| `update_wrapper` | `MAKEFILES_UPDATE_WRAPPER` | `yes`                               |
 
 Precedence (highest wins): command-line / environment Make overrides →
 `makefiles.config` → wrapper defaults.
@@ -77,7 +77,7 @@ Set `update_wrapper = no` to skip refreshing `./Makefile` on `make update`
 (skills still update). Accepted truthy/falsey values include `yes`/`no`,
 `true`/`false`, and `1`/`0`.
 
-## Pin the library version
+## Pin the Library Version
 
 `ref = head` checks out the library's `master` branch. To pin consumers after
 a library release is tagged, set `ref` to that tag in `makefiles.config`:
@@ -89,22 +89,22 @@ ref = v1.0.0
 Create tags such as `v1.0.0` in the library when you are ready to publish a
 stable pin; consumers can continue using the default `head` until then.
 
-## Migrating from an older wrapper
+## Migrating from an Older Wrapper
 
 If your Makefile still sets `SKILLS ?=`, transport URLs, or other knobs
 inline:
 
-1. Copy those values into `makefiles.config` (or run `make init` to create a
+1.   Copy those values into `makefiles.config` (or run `make init` to create a
    starter file, then edit it).
-2. Run `make update` to refresh `./Makefile` from the upstream template
+2.   Run `make update` to refresh `./Makefile` from the upstream template
    (default), or set `update_wrapper = no` until you are ready.
-3. Remove the old knob lines from your Makefile so `makefiles.config` is the
+3.   Remove the old knob lines from your Makefile so `makefiles.config` is the
    single durable source.
 
 An old wrapper without config continues to work until refreshed; Make/CLI
 overrides still win.
 
-## Skills and commands
+## Skills and Commands
 
 `versioning` is always enabled and provides direct stable bumps
 (`make bump-patch`, `make bump-minor`, `make bump-major`) plus optional
@@ -153,18 +153,7 @@ and `PHPSTAN_FLAGS`.
 Run `make help` in a consumer project to see only the versioning commands and
 the optional skills selected in `makefiles.config`.
 
-## Documentation site
-
-Project docs use MkDocs Material (Lupaxa technical documentation template):
-
-```bash
-python -m pip install -r requirements.txt
-make mkdocs-serve   # requires skills including mkdocs, or: python -m mkdocs serve
-```
-
-Source lives in `mkdocs/`; config is `mkdocs.yml` at the repository root.
-
-## Developing this library
+## Developing this Library
 
 Contributors working in **this** repository (not consumer projects) can run
 the same Makefile lint CI uses:
@@ -179,6 +168,17 @@ Also run the integration suite before release:
 
 ```bash
 bash tests/run_all.sh
+```
+
+## Documentation
+
+Site pages live in `mkdocs/` and publish to
+<https://makefile-skills.thelupaxaproject.org/>.
+
+```bash
+make init
+make python-install-dev
+make mkdocs-serve
 ```
 
 <a href="https://github.com/the-lupaxa-project">

@@ -1,17 +1,17 @@
 # Reference
 
-## Lifecycle (wrapper)
+## Lifecycle (Wrapper)
 
 <div class="lupaxa-table lupaxa-table--commands" markdown="1">
 
-| Command | Description |
-| --- | --- |
+| Command                      | Description                                                                                                                                          |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `make init` / `make install` | Sparse-clone `skills/` and `templates/` into `MAKEFILES_DIR` (default `.makefiles`); create `makefiles.config` when missing; quiet `==>` status only |
-| `make update` | Fetch and check out `ref`; by default also refresh `./Makefile` from upstream template; quiet `==>` status only |
-| `make help` | List lifecycle commands and enabled skill help |
-| `make status` | Project / version / Git / skill status (Status help section) |
-| `make doctor` | Top-level: lifecycle + `doctor-versioning` + each enabled `*-doctor` |
-| `make completion` | Print bash completion snippet for `make` targets |
+| `make update`                | Fetch and check out `ref`; by default also refresh `./Makefile` from upstream template; quiet `==>` status only                                      |
+| `make help`                  | List lifecycle commands and enabled skill help                                                                                                       |
+| `make status`                | Project / version / Git / skill status (Status help section)                                                                                         |
+| `make doctor`                | Top-level: lifecycle + `doctor-versioning` + each enabled `*-doctor`                                                                                 |
+| `make completion`            | Print bash completion snippet for `make` targets                                                                                                     |
 
 </div>
 
@@ -23,15 +23,15 @@ Unknown keys are a hard error.
 
 <div class="lupaxa-table lupaxa-table--config" markdown="1">
 
-| Config key | Make variable | Default | Description |
-| --- | --- | --- | --- |
-| `skills` | `SKILLS` | _(empty)_ | Optional skills: `python`, `mkdocs`, `bash`, `ruby`, `perl`, `php` (space-separated) |
-| `ref` | `MAKEFILES_REF` | `head` | `head` → tip of `master`, or a tag such as `v1.0.0` |
-| `transport` | `MAKEFILES_TRANSPORT` | `https` | `ssh`, `https`, or `http` (https default so public consumers need no org SSH) |
-| `repo_ssh` | `MAKEFILES_REPO_SSH` | `git@github.com:lupaxa-developers-toolbox/makefile-skills.git` | SSH clone URL |
-| `repo_http` | `MAKEFILES_REPO_HTTP` | `https://github.com/lupaxa-developers-toolbox/makefile-skills.git` | HTTPS clone URL |
-| `custom_dir` | `MAKEFILES_CUSTOM_DIR` | `.makefiles-custom` | Directory of project `.mk` fragments `-include`d after library skills |
-| `update_wrapper` | `MAKEFILES_UPDATE_WRAPPER` | `yes` | When truthy, `make update` overwrites `./Makefile` from upstream template |
+| Config key       | Make variable              | Default                                                            | Description                                                                          |
+| ---------------- | -------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `skills`         | `SKILLS`                   | *(empty)*                                                          | Optional skills: `python`, `mkdocs`, `bash`, `ruby`, `perl`, `php` (space-separated) |
+| `ref`            | `MAKEFILES_REF`            | `head`                                                             | `head` → tip of `master`, or a tag such as `v1.0.0`                                  |
+| `transport`      | `MAKEFILES_TRANSPORT`      | `https`                                                            | `ssh`, `https`, or `http` (https default so public consumers need no org SSH)        |
+| `repo_ssh`       | `MAKEFILES_REPO_SSH`       | `git@github.com:lupaxa-developers-toolbox/makefile-skills.git`     | SSH clone URL                                                                        |
+| `repo_http`      | `MAKEFILES_REPO_HTTP`      | `https://github.com/lupaxa-developers-toolbox/makefile-skills.git` | HTTPS clone URL                                                                      |
+| `custom_dir`     | `MAKEFILES_CUSTOM_DIR`     | `.makefiles-custom`                                                | Directory of project `.mk` fragments `-include`d after library skills                |
+| `update_wrapper` | `MAKEFILES_UPDATE_WRAPPER` | `yes`                                                              | When truthy, `make update` overwrites `./Makefile` from upstream template            |
 
 </div>
 
@@ -50,182 +50,182 @@ skills only and keep a hand-edited Makefile.
 Accepted truthy values: `yes`, `true`, `1`. Accepted falsey values: `no`,
 `false`, `0`.
 
-### Wrapper-only variables
+### Wrapper-Only Variables
 
 These are not in `makefiles.config`:
 
 <div class="lupaxa-table lupaxa-table--vars-desc" markdown="1">
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `MAKEFILES_DIR` | `.makefiles` | Clone location (gitignored in consumers) |
-| `MAKEFILES_CONFIG` | `makefiles.config` | Path to the consumer config file |
-| `MAKEFILES_REPO` | _(derived)_ | Selected URL from transport + repo URLs; override for one-offs |
-| `MAKEFILES_MODE` | `consumer` | Set to `library` for makefile-skills development |
+| Variable           | Default            | Description                                                    |
+| ------------------ | ------------------ | -------------------------------------------------------------- |
+| `MAKEFILES_DIR`    | `.makefiles`       | Clone location (gitignored in consumers)                       |
+| `MAKEFILES_CONFIG` | `makefiles.config` | Path to the consumer config file                               |
+| `MAKEFILES_REPO`   | *(derived)*        | Selected URL from transport + repo URLs; override for one-offs |
+| `MAKEFILES_MODE`   | `consumer`         | Set to `library` for makefile-skills development               |
 
 </div>
 
-## Versioning (always on)
+## Versioning (Always On)
 
 <div class="lupaxa-table lupaxa-table--commands" markdown="1">
 
-| Command | Description |
-| --- | --- |
-| `make version` | Print current version from `.bumpversion.toml` |
-| `make show-version-flow` | Valid next bump/release commands for this stage |
-| `make bump-patch` | Bump to next stable patch (`X.Y.Z+1`) |
-| `make bump-minor` | Bump to next stable minor (`X.Y+1.0`) |
-| `make bump-major` | Bump to next stable major (`X+1.0.0`) |
-| `make bump-dev` | Alias of `bump-patch-dev` |
-| `make bump-patch-dev` | Start or continue patch `-devN` |
-| `make bump-minor-dev` | Start or continue minor `-devN` |
-| `make bump-major-dev` | Start or continue major `-devN` |
-| `make bump-rc` | Alias of `bump-patch-rc` |
-| `make bump-patch-rc` | Start patch `-rc1` from stable or `-devN`, or bump `-rcN` |
-| `make bump-minor-rc` | Start minor `-rc1` from stable or `-devN`, or bump `-rcN` |
-| `make bump-major-rc` | Start major `-rc1` from stable or `-devN`, or bump `-rcN` |
-| `make release` | Promote `-rcN` → stable |
-| `make bump-final` | Alias of `release` |
-| `make draft-tag` | Create next `vX.Y.Z-draftN` git tag at HEAD (does not change `current_version`) |
-| `make doctor-versioning` | Check version file, bump tool, git work tree |
+| Command                  | Description                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------- |
+| `make version`           | Print current version from `.bumpversion.toml`                                  |
+| `make show-version-flow` | Valid next bump/release commands for this stage                                 |
+| `make bump-patch`        | Bump to next stable patch (`X.Y.Z+1`)                                           |
+| `make bump-minor`        | Bump to next stable minor (`X.Y+1.0`)                                           |
+| `make bump-major`        | Bump to next stable major (`X+1.0.0`)                                           |
+| `make bump-dev`          | Alias of `bump-patch-dev`                                                       |
+| `make bump-patch-dev`    | Start or continue patch `-devN`                                                 |
+| `make bump-minor-dev`    | Start or continue minor `-devN`                                                 |
+| `make bump-major-dev`    | Start or continue major `-devN`                                                 |
+| `make bump-rc`           | Alias of `bump-patch-rc`                                                        |
+| `make bump-patch-rc`     | Start patch `-rc1` from stable or `-devN`, or bump `-rcN`                       |
+| `make bump-minor-rc`     | Start minor `-rc1` from stable or `-devN`, or bump `-rcN`                       |
+| `make bump-major-rc`     | Start major `-rc1` from stable or `-devN`, or bump `-rcN`                       |
+| `make release`           | Promote `-rcN` → stable                                                         |
+| `make bump-final`        | Alias of `release`                                                              |
+| `make draft-tag`         | Create next `vX.Y.Z-draftN` git tag at HEAD (does not change `current_version`) |
+| `make doctor-versioning` | Check version file, bump tool, git work tree                                    |
 
 </div>
 
-### Versioning variables
+### Versioning Variables
 
 <div class="lupaxa-table lupaxa-table--vars" markdown="1">
 
-| Variable | Default |
-| --- | --- |
-| `VERSION_FILE` | `.bumpversion.toml` |
-| `BUMP` | `bump-my-version` |
-| `PROJECT_NAME` | directory name |
-| `DRAFT_BASE` | _(optional)_ — `X.Y.Z` override for `draft-tag` |
+| Variable       | Default                                         |
+| -------------- | ----------------------------------------------- |
+| `VERSION_FILE` | `.bumpversion.toml`                             |
+| `BUMP`         | `bump-my-version`                               |
+| `PROJECT_NAME` | directory name                                  |
+| `DRAFT_BASE`   | *(optional)* — `X.Y.Z` override for `draft-tag` |
 
 </div>
 
-## Python skill
+## Python Skill
 
 Enable with `skills = python` in `makefiles.config`.
 
 <div class="lupaxa-table lupaxa-table--commands" markdown="1">
 
-| Command | Description |
-| --- | --- |
-| `make python-doctor` | Check layout and tools |
-| `make python-install-dev` | Editable install with `[dev]` |
+| Command                    | Description                    |
+| -------------------------- | ------------------------------ |
+| `make python-doctor`       | Check layout and tools         |
+| `make python-install-dev`  | Editable install with `[dev]`  |
 | `make python-install-test` | Editable install with `[test]` |
-| `make python-lint` | Ruff lint + format check |
-| `make python-check-style` | Lint + mypy |
-| `make python-format` | Ruff format |
-| `make python-type` | mypy |
-| `make python-test` | pytest |
-| `make python-test-cov` | pytest with coverage |
-| `make python-check` | lint + type + test |
-| `make python-check-all` | lint + type + coverage + audit |
-| `make python-audit` | pip-audit in an isolated venv |
-| `make python-build` | Hatch build |
-| `make python-publish` | Hatch publish |
-| `make python-clean` | Remove Python artefacts |
+| `make python-lint`         | Ruff lint + format check       |
+| `make python-check-style`  | Lint + mypy                    |
+| `make python-format`       | Ruff format                    |
+| `make python-type`         | mypy                           |
+| `make python-test`         | pytest                         |
+| `make python-test-cov`     | pytest with coverage           |
+| `make python-check`        | lint + type + test             |
+| `make python-check-all`    | lint + type + coverage + audit |
+| `make python-audit`        | pip-audit in an isolated venv  |
+| `make python-build`        | Hatch build                    |
+| `make python-publish`      | Hatch publish                  |
+| `make python-clean`        | Remove Python artefacts        |
 
 </div>
 
-### Python variables
+### Python Variables
 
 <div class="lupaxa-table lupaxa-table--vars" markdown="1">
 
-| Variable | Default |
-| --- | --- |
-| `SRC_DIR` | `src` |
-| `TEST_DIR` | `tests` |
-| `PYPROJECT_FILE` | `pyproject.toml` |
-| `PIP_INSTALL_DEV` | `-e ".[dev]"` |
-| `PIP_INSTALL_TEST` | `-e ".[test]"` |
-| `PYTHON_RUFF_PATHS` | `$(SRC_DIR) $(TEST_DIR)` |
-| `MYPY_ARGS` | `$(SRC_DIR)` (set empty to use `[tool.mypy] files`) |
-| `PYTHON_PACKAGE_DIRS` | empty (`hatch build` at root; set for multi-package) |
-| `PYTHON` / `RUFF` / `MYPY` / `PYTEST` / `HATCH` | tool names on `PATH` |
+| Variable                                        | Default                                              |
+| ----------------------------------------------- | ---------------------------------------------------- |
+| `SRC_DIR`                                       | `src`                                                |
+| `TEST_DIR`                                      | `tests`                                              |
+| `PYPROJECT_FILE`                                | `pyproject.toml`                                     |
+| `PIP_INSTALL_DEV`                               | `-e ".[dev]"`                                        |
+| `PIP_INSTALL_TEST`                              | `-e ".[test]"`                                       |
+| `PYTHON_RUFF_PATHS`                             | `$(SRC_DIR) $(TEST_DIR)`                             |
+| `MYPY_ARGS`                                     | `$(SRC_DIR)` (set empty to use `[tool.mypy] files`)  |
+| `PYTHON_PACKAGE_DIRS`                           | empty (`hatch build` at root; set for multi-package) |
+| `PYTHON` / `RUFF` / `MYPY` / `PYTEST` / `HATCH` | tool names on `PATH`                                 |
 
 </div>
 
-## MkDocs skill
+## MkDocs Skill
 
 Enable with `skills = mkdocs` (or include `mkdocs` in `skills`).
 
 <div class="lupaxa-table lupaxa-table--commands" markdown="1">
 
-| Command | Description |
-| --- | --- |
+| Command              | Description                      |
+| -------------------- | -------------------------------- |
 | `make mkdocs-doctor` | Check config and `mkdocs` binary |
-| `make mkdocs-build` | Build static site |
-| `make mkdocs-serve` | Live-reload server |
-| `make mkdocs-clean` | Remove `site/` |
+| `make mkdocs-build`  | Build static site                |
+| `make mkdocs-serve`  | Live-reload server               |
+| `make mkdocs-clean`  | Remove `site/`                   |
 
 </div>
 
-### MkDocs variables
+### MkDocs Variables
 
 <div class="lupaxa-table lupaxa-table--vars" markdown="1">
 
-| Variable | Default |
-| --- | --- |
+| Variable        | Default      |
+| --------------- | ------------ |
 | `MKDOCS_CONFIG` | `mkdocs.yml` |
-| `MKDOCS_HOST` | `127.0.0.1` |
-| `MKDOCS_PORT` | `8000` |
-| `MKDOCS` | `mkdocs` |
+| `MKDOCS_HOST`   | `127.0.0.1`  |
+| `MKDOCS_PORT`   | `8000`       |
+| `MKDOCS`        | `mkdocs`     |
 
 </div>
 
-## Bash skill
+## Bash Skill
 
 Enable with `skills = bash` in `makefiles.config`.
 
 <div class="lupaxa-table lupaxa-table--commands" markdown="1">
 
-| Command | Description |
-| --- | --- |
-| `make bash-doctor` | Check discovery helper and tools |
-| `make bash-list-scripts` | List discovered scripts |
-| `make bash-syntax` | `bash -n` on each script |
-| `make bash-shellcheck` | ShellCheck analysis |
-| `make bash-lint` | Alias of `bash-shellcheck` |
-| `make bash-test` / `make bash-check` | syntax + ShellCheck |
+| Command                              | Description                      |
+| ------------------------------------ | -------------------------------- |
+| `make bash-doctor`                   | Check discovery helper and tools |
+| `make bash-list-scripts`             | List discovered scripts          |
+| `make bash-syntax`                   | `bash -n` on each script         |
+| `make bash-shellcheck`               | ShellCheck analysis              |
+| `make bash-lint`                     | Alias of `bash-shellcheck`       |
+| `make bash-test` / `make bash-check` | syntax + ShellCheck              |
 
 </div>
 
-### Bash variables
+### Bash Variables
 
 <div class="lupaxa-table lupaxa-table--vars" markdown="1">
 
-| Variable | Default |
-| --- | --- |
-| `SHELL_SOURCE_DIR` | `.` |
-| `SHELL_FILE_FINDER` | `$(MAKEFILES_DIR)/skills/bash/find-shell-files` |
-| `SHELL_FILES` | auto-discovered |
-| `SHELLCHECK_SHELL` | `bash` |
-| `BASH` / `SHELLCHECK` | tool names on `PATH` |
+| Variable              | Default                                         |
+| --------------------- | ----------------------------------------------- |
+| `SHELL_SOURCE_DIR`    | `.`                                             |
+| `SHELL_FILE_FINDER`   | `$(MAKEFILES_DIR)/skills/bash/find-shell-files` |
+| `SHELL_FILES`         | auto-discovered                                 |
+| `SHELLCHECK_SHELL`    | `bash`                                          |
+| `BASH` / `SHELLCHECK` | tool names on `PATH`                            |
 
 </div>
 
-## Ruby skill
+## Ruby Skill
 
 Enable with `skills = ruby` in `makefiles.config`.
 
 <div class="lupaxa-table lupaxa-table--commands" markdown="1">
 
-| Command | Description |
-| --- | --- |
-| `make ruby-doctor` | Check Ruby tools and project layout |
-| `make ruby-bundle` | Install dependencies from `Gemfile` |
-| `make ruby-lint` | Run RuboCop |
-| `make ruby-format` | RuboCop unsafe autocorrect (`-A`; all correctable offences) |
-| `make ruby-check-diff` | Show correctable RuboCop offences |
-| `make ruby-test` | Run `rake test` |
-| `make ruby-check` | Run lint and tests |
-| `make ruby-check-all` | Alias of `ruby-check` |
-| `make ruby-build` | Build the project gem |
-| `make ruby-publish` | Build and publish the project gem |
-| `make ruby-clean` | Remove Ruby build and test artefacts |
+| Command                | Description                                                 |
+| ---------------------- | ----------------------------------------------------------- |
+| `make ruby-doctor`     | Check Ruby tools and project layout                         |
+| `make ruby-bundle`     | Install dependencies from `Gemfile`                         |
+| `make ruby-lint`       | Run RuboCop                                                 |
+| `make ruby-format`     | RuboCop unsafe autocorrect (`-A`; all correctable offences) |
+| `make ruby-check-diff` | Show correctable RuboCop offences                           |
+| `make ruby-test`       | Run `rake test`                                             |
+| `make ruby-check`      | Run lint and tests                                          |
+| `make ruby-check-all`  | Alias of `ruby-check`                                       |
+| `make ruby-build`      | Build the project gem                                       |
+| `make ruby-publish`    | Build and publish the project gem                           |
+| `make ruby-clean`      | Remove Ruby build and test artefacts                        |
 
 </div>
 
@@ -235,53 +235,53 @@ with `-A` (unsafe autocorrect — the full correctable set, not safe-only `-a`).
 `ruby-build` and `ruby-publish` call `gem build` and `gem push` directly —
 they are not wrapped in Bundler.
 
-### Ruby variables
+### Ruby Variables
 
 <div class="lupaxa-table lupaxa-table--vars" markdown="1">
 
-| Variable | Default |
-| --- | --- |
-| `RUBY` | `ruby` |
-| `BUNDLE` | `bundle` |
-| `RUBOCOP` | `rubocop` |
-| `RAKE` | `rake` |
-| `GEM` | `gem` |
-| `GEMFILE` | `Gemfile` |
-| `GEMSPEC` | _(empty — auto-detect single `*.gemspec`)_ |
-| `SRC_DIR` | `lib` |
-| `TEST_DIR` | `test` |
-| `RUBY_RUN` | `bundle exec` when `Gemfile` exists; otherwise empty |
-| `RUBOCOP_ARGS` | _(empty)_ |
+| Variable       | Default                                              |
+| -------------- | ---------------------------------------------------- |
+| `RUBY`         | `ruby`                                               |
+| `BUNDLE`       | `bundle`                                             |
+| `RUBOCOP`      | `rubocop`                                            |
+| `RAKE`         | `rake`                                               |
+| `GEM`          | `gem`                                                |
+| `GEMFILE`      | `Gemfile`                                            |
+| `GEMSPEC`      | *(empty — auto-detect single `*.gemspec`)*           |
+| `SRC_DIR`      | `lib`                                                |
+| `TEST_DIR`     | `test`                                               |
+| `RUBY_RUN`     | `bundle exec` when `Gemfile` exists; otherwise empty |
+| `RUBOCOP_ARGS` | *(empty)*                                            |
 
 </div>
 
-## Perl skill
+## Perl Skill
 
 Enable with `skills = perl` in `makefiles.config`.
 
 <div class="lupaxa-table lupaxa-table--commands" markdown="1">
 
-| Command | Description |
-| --- | --- |
+| Command            | Description                                       |
+| ------------------ | ------------------------------------------------- |
 | `make perl-doctor` | Check `SRC_DIR`, Perl tools, and source discovery |
-| `make perl-syntax` | Run `perl -c` on each file in `PERL_FILES` |
-| `make perl-critic` | Run Perl::Critic against `SRC_DIR` |
-| `make perl-lint` | Run syntax validation and Perl::Critic |
-| `make perl-check` | Alias of `perl-lint` |
+| `make perl-syntax` | Run `perl -c` on each file in `PERL_FILES`        |
+| `make perl-critic` | Run Perl::Critic against `SRC_DIR`                |
+| `make perl-lint`   | Run syntax validation and Perl::Critic            |
+| `make perl-check`  | Alias of `perl-lint`                              |
 
 </div>
 
-### Perl variables
+### Perl Variables
 
 <div class="lupaxa-table lupaxa-table--vars" markdown="1">
 
-| Variable | Default |
-| --- | --- |
-| `PERL` | `perl` |
-| `PERLCRITIC` | `perlcritic` |
-| `SRC_DIR` | `.` |
-| `PERL_FILES` | `*.pl` and `*.pm` discovered under `SRC_DIR` |
-| `PERLCRITIC_FLAGS` | _(empty)_ |
+| Variable           | Default                                      |
+| ------------------ | -------------------------------------------- |
+| `PERL`             | `perl`                                       |
+| `PERLCRITIC`       | `perlcritic`                                 |
+| `SRC_DIR`          | `.`                                          |
+| `PERL_FILES`       | `*.pl` and `*.pm` discovered under `SRC_DIR` |
+| `PERLCRITIC_FLAGS` | *(empty)*                                    |
 
 </div>
 
@@ -290,36 +290,36 @@ passes `SRC_DIR` to Perl::Critic so `.perlcriticrc` can control the analysed
 tree. Override `PERL_FILES` for syntax-only exceptions. The v1 skill does not
 provide test, build, publish, or format targets.
 
-## PHP skill
+## PHP Skill
 
 Enable with `skills = php` in `makefiles.config`.
 
 <div class="lupaxa-table lupaxa-table--commands" markdown="1">
 
-| Command | Description |
-| --- | --- |
+| Command           | Description                                      |
+| ----------------- | ------------------------------------------------ |
 | `make php-doctor` | Check `SRC_DIR`, PHP tools, and source discovery |
-| `make php-syntax` | Run `php -l` on each file in `PHP_FILES` |
-| `make php-cs` | Run PHP_CodeSniffer against `SRC_DIR` |
-| `make php-stan` | Run `phpstan analyse` against `SRC_DIR` |
-| `make php-lint` | Run syntax, PHP_CodeSniffer, and PHPStan checks |
-| `make php-check` | Alias of `php-lint` |
+| `make php-syntax` | Run `php -l` on each file in `PHP_FILES`         |
+| `make php-cs`     | Run PHP_CodeSniffer against `SRC_DIR`            |
+| `make php-stan`   | Run `phpstan analyse` against `SRC_DIR`          |
+| `make php-lint`   | Run syntax, PHP_CodeSniffer, and PHPStan checks  |
+| `make php-check`  | Alias of `php-lint`                              |
 
 </div>
 
-### PHP variables
+### PHP Variables
 
 <div class="lupaxa-table lupaxa-table--vars" markdown="1">
 
-| Variable | Default |
-| --- | --- |
-| `PHP` | `php` |
-| `PHPCS` | `phpcs` |
-| `PHPSTAN` | `phpstan` |
-| `SRC_DIR` | `.` |
-| `PHP_FILES` | `*.php` discovered under `SRC_DIR` |
-| `PHPCS_FLAGS` | _(empty)_ |
-| `PHPSTAN_FLAGS` | _(empty)_ |
+| Variable        | Default                            |
+| --------------- | ---------------------------------- |
+| `PHP`           | `php`                              |
+| `PHPCS`         | `phpcs`                            |
+| `PHPSTAN`       | `phpstan`                          |
+| `SRC_DIR`       | `.`                                |
+| `PHP_FILES`     | `*.php` discovered under `SRC_DIR` |
+| `PHPCS_FLAGS`   | *(empty)*                          |
+| `PHPSTAN_FLAGS` | *(empty)*                          |
 
 </div>
 
@@ -328,7 +328,7 @@ Discovery is hybrid: `php-syntax` uses `PHP_FILES`, while `php-cs` and
 analysed tree. Override `PHP_FILES` for syntax-only exceptions. The v1 skill
 does not provide test, build, publish, or format targets.
 
-## Repository layout (this library)
+## Repository Layout (This Library)
 
 ```text
 templates/Makefile              Canonical consumer wrapper (refreshable)
@@ -349,17 +349,17 @@ overrides/                      Material theme overrides
 Library maintainers: `make validate-makefiles` and `make validate-shell` run
 the CI linters; `bash tests/run_all.sh` runs the integration suite.
 
-## Adding a language skill
+## Adding a Language Skill
 
 Copy [`skills/_template.language.mk`](https://github.com/lupaxa-developers-toolbox/makefile-skills/blob/master/skills/_template.language.mk)
 to `skills/<id>.mk` (for example `go.mk`), replace `lang` / `Lang`, implement the stub
 targets, then enable with `skills = go` in `makefiles.config`. See the checklist in the template header.
 
-## Migration from an older wrapper
+## Migration from an Older Wrapper
 
-1. Copy knob values from the Makefile into `makefiles.config`.
-2. Run `make update` to refresh the wrapper (default), or set
+1.   Copy knob values from the Makefile into `makefiles.config`.
+2.   Run `make update` to refresh the wrapper (default), or set
    `update_wrapper = no` until ready.
-3. Remove knob lines from the Makefile so config is the single durable source.
+3.   Remove knob lines from the Makefile so config is the single durable source.
 
 An old wrapper without config continues to work until refreshed.

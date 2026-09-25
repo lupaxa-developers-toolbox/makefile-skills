@@ -1,4 +1,4 @@
-# makefile-skills
+# Makefile Skills
 
 Reusable **Makefile skills** for project versioning, Python quality tooling,
 MkDocs documentation, Bash validation, Ruby gem workflows, and Perl/PHP
@@ -11,31 +11,24 @@ always enables **versioning**, and optionally enables standalone skills via
 with `make update` when you want a newer `ref`. `init` / `update` status is
 quiet (`==>` lines only). Default clone transport is **https**.
 
-## Why it exists
+## Why it Exists
 
 Copy-pasted Makefiles drift. This library keeps shared targets in one place and
 lets you refresh them with `make update`, while each project commits its wrapper,
 `makefiles.config`, and `.gitignore`.
 
-## Skills at a glance
+## Skills at a Glance
 
 <div class="lupaxa-table lupaxa-table--skills" markdown="1">
 
-| Skill | Always on? | Purpose |
-| --- | --- | --- |
-| Versioning | Yes | Direct stable bumps plus optional `-dev` / `-rc` cycles (`bump-my-version`) |
-| Python | Optional | Lint, type-check, test, audit, build, publish (prefixed targets) |
-| MkDocs | Optional | Build and serve docs (`mkdocs-serve` supports custom ports) |
-| Bash | Optional | Discover scripts, `bash -n`, ShellCheck |
-| Ruby | Optional | Bundler install, RuboCop, `rake test`, gem build/publish |
-| Perl | Optional | `perl -c` syntax checks and Perl::Critic |
-| PHP | Optional | `php -l`, PHP_CodeSniffer, and PHPStan |
+| Skill      | Always on? | Purpose                                                                     |
+| ---------- | ---------- | --------------------------------------------------------------------------- |
+| Versioning | Yes        | Direct stable bumps plus optional `-dev` / `-rc` cycles (`bump-my-version`) |
+| Python     | Optional   | Lint, type-check, test, audit, build, publish (prefixed targets)            |
+| MkDocs     | Optional   | Build and serve docs (`mkdocs-serve` supports custom ports)                 |
+| Bash       | Optional   | Discover scripts, `bash -n`, ShellCheck                                     |
+| Ruby       | Optional   | Bundler install, RuboCop, `rake test`, gem build/publish                    |
+| Perl       | Optional   | `perl -c` syntax checks and Perl::Critic                                    |
+| PHP        | Optional   | `php -l`, PHP_CodeSniffer, and PHPStan                                      |
 
 </div>
-
-## Next steps
-
-- [Getting started](getting-started.md) — copy the wrapper, `make init`, edit config
-- [Usage](usage.md) — day-to-day workflows (`doctor`, bumps, and language skills)
-- [Reference](reference.md) — commands, config keys, and variables
-- [Examples](examples.md) — ready-made wrapper and config profiles

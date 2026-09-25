@@ -1,6 +1,6 @@
 # Usage
 
-## Diagnose the environment
+## Diagnose the Environment
 
 ```bash
 make doctor
@@ -31,7 +31,7 @@ set `FORCE_COLOR` to a truthy value such as `1` to force colour (for example
 when piping); `0`, `false`, and `no` do not force it. `NO_COLOR` wins if both
 are set.
 
-## Shell completion
+## Shell Completion
 
 After `make init`, enable bash target completion:
 
@@ -71,7 +71,7 @@ and `1`/`0`.
 Versioning is always on. Versions live in `.bumpversion.toml` and are applied
 with `bump-my-version`.
 
-### Direct stable bumps
+### Direct Stable Bumps
 
 ```make
 make bump-patch    # 1.2.3 → 1.2.4
@@ -84,7 +84,7 @@ When `current_version` is stable, the last stable git tag (`vX.Y.Z` only;
 ahead of the file abort the bump. Set `current_version` to that tag, or
 delete the extra tag, then retry. Repos with no stable tag yet are fine.
 
-### Optional pre-release cycles
+### Optional Pre-Release Cycles
 
 Start `-dev` and/or `-rc` when you want them — neither is required for a
 stable bump, and `-rc` does not require `-dev` first:
@@ -102,7 +102,7 @@ only the matching channel may continue (strict channel).
 `-devN` versions are for local / in-repo WIP. They do **not** trigger a GitHub
 release workflow (unlike `-rcN` → test/prerelease release).
 
-### Draft GitHub tags (outside the version flow)
+### Draft GitHub Tags (Outside the Version Flow)
 
 `make draft-tag` creates the next `vX.Y.Z-draftN` annotated tag at `HEAD`
 without changing `.bumpversion.toml`. That tag triggers
@@ -115,7 +115,7 @@ See valid next **version** steps for the current stage:
 make show-version-flow
 ```
 
-## Python skill
+## Python Skill
 
 Enable with `skills = python` in `makefiles.config`.
 
@@ -133,7 +133,7 @@ make python-build
 Language targets are prefixed (`python-lint`, not `lint`) so they do not clash
 with other skills.
 
-## MkDocs skill
+## MkDocs Skill
 
 Enable with `skills = python mkdocs` (or `skills = mkdocs` alone).
 
@@ -150,7 +150,7 @@ running several sites at once.
 This repository’s own docs live under `mkdocs/` with `mkdocs.yml` at the repo
 root (Material theme from the Lupaxa technical documentation template).
 
-## Bash skill
+## Bash Skill
 
 Enable with `skills = bash` in `makefiles.config`.
 
@@ -173,7 +173,7 @@ make bash-list-scripts SHELL_SOURCE_DIR=bin
 make bash-list-scripts SHELL_FILES="bin/tool scripts/install.sh"
 ```
 
-## Ruby skill
+## Ruby Skill
 
 Enable with `skills = ruby` in `makefiles.config`.
 
@@ -195,7 +195,7 @@ run through `bundle exec` (`RUBY_RUN`). `ruby-format` uses RuboCop `-A`
 `*.gemspec` files, set an explicit path, e.g.
 `GEMSPEC=my_project.gemspec`.
 
-## Perl skill
+## Perl Skill
 
 Enable with `skills = perl` in `makefiles.config`.
 
@@ -217,7 +217,7 @@ make perl-critic SRC_DIR=lib PERLCRITIC_FLAGS="--severity 3"
 
 The v1 Perl skill has no test, build, publish, or format target.
 
-## PHP skill
+## PHP Skill
 
 Enable with `skills = php` in `makefiles.config`.
 
@@ -254,7 +254,7 @@ transport = https   # default — or ssh | http
 `make init` / `make update` use. Override `MAKEFILES_REPO` on the command line
 only for one-offs (for example a local path).
 
-## Skills sync and wrapper refresh
+## Skills Sync and Wrapper Refresh
 
 `make init` clones skills into `.makefiles/` and creates `makefiles.config`
 when missing. `make update` fetches and checks out `ref` again (hard fail on
@@ -266,7 +266,7 @@ Lifecycle output for `init` / `update` is intentionally quiet: only `==>`
 status lines (cyan when colour is enabled). Git pack/progress chatter is
 suppressed; failures still surface git's error text.
 
-## Custom skill fragments
+## Custom Skill Fragments
 
 Drop `.mk` files into `.makefiles-custom/` (or set `custom_dir` in config).
 They are `-include`d after library skills, so you can add prefixed targets or

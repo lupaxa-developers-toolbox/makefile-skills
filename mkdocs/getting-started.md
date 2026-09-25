@@ -1,21 +1,21 @@
-# Getting started
+# Getting Started
 
 ## Requirements
 
-- GNU Make
-- Git
-- Network access to clone this library (SSH or HTTPS)
-- Skill-specific tools as needed (`bump-my-version`, Python toolchain, MkDocs,
+-   GNU Make
+-   Git
+-   Network access to clone this library (SSH or HTTPS)
+-   Skill-specific tools as needed (`bump-my-version`, Python toolchain, MkDocs,
   ShellCheck, Perl::Critic, PHP_CodeSniffer, PHPStan, …) — use `make doctor`
   after init to verify
 
-## Adopt the wrapper
+## Adopt the Wrapper
 
-1. Copy [`templates/Makefile`](https://github.com/lupaxa-developers-toolbox/makefile-skills/blob/master/templates/Makefile)
+1.   Copy [`templates/Makefile`](https://github.com/lupaxa-developers-toolbox/makefile-skills/blob/master/templates/Makefile)
    to your project root as `Makefile`.
-2. Add `.makefiles/` to the project's `.gitignore`. Commit the wrapper and
+2.   Add `.makefiles/` to the project's `.gitignore`. Commit the wrapper and
    `.gitignore`, not the cloned skills library.
-3. Initialise:
+3.   Initialise:
 
    ```bash
    make init
@@ -24,7 +24,7 @@
    This sparse-clones `skills/` and `templates/` into `.makefiles/` (docs,
    tests, and examples stay out of the clone) and creates `makefiles.config`
    from the starter template when the file is missing.
-4. Edit `makefiles.config` for your project:
+4.   Edit `makefiles.config` for your project:
 
    ```ini
    skills = python mkdocs
@@ -37,14 +37,14 @@
    for the corresponding validation skill; list multiple skills separated by
    spaces.
 
-5. Inspect:
+5.   Inspect:
 
-   ```bash
-   make help
-   make doctor
-   ```
+     ```bash
+     make help
+     make doctor
+     ```
 
-## First commands
+## First Commands
 
 ```bash
 make status
@@ -52,7 +52,7 @@ make version
 make show-version-flow
 ```
 
-## Pin the library version
+## Pin the Library Version
 
 `ref = head` tracks the tip of `master`. To pin a release tag in
 `makefiles.config`:
@@ -63,7 +63,7 @@ ref = v1.0.0
 
 Then run `make update` (or `make init` on a fresh clone).
 
-## Refresh skills and wrapper
+## Refresh Skills and Wrapper
 
 ```bash
 make update
@@ -78,17 +78,17 @@ update skills only.
 clone/fetch progress is suppressed). Use `NO_COLOR=1` for plain text, or
 `FORCE_COLOR=1` when piping.
 
-## Migrating from an older wrapper
+## Migrating from an Older Wrapper
 
 If your Makefile still sets knobs such as `SKILLS ?=` inline:
 
-1. Move those values into `makefiles.config` (or run `make init` to create a
+1.   Move those values into `makefiles.config` (or run `make init` to create a
    starter, then edit).
-2. Run `make update` to refresh the wrapper (default), or set
+2.   Run `make update` to refresh the wrapper (default), or set
    `update_wrapper = no` until you are ready.
-3. Remove the old knob lines from the Makefile.
+3.   Remove the old knob lines from the Makefile.
 
-## Custom skills in `.makefiles-custom/`
+## Custom Skills in `.makefiles-custom/`
 
 Project-specific Make fragments live under `.makefiles-custom/` (override with
 `custom_dir` in `makefiles.config`). The wrapper includes

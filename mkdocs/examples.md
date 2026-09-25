@@ -7,15 +7,15 @@ except where noted below.
 
 <div class="lupaxa-table lupaxa-table--examples" markdown="1">
 
-| Wrapper | Config | skills | update_wrapper | Use when |
-| --- | --- | --- | --- | --- |
-| `Makefile.versioning-only` | `makefiles.config.versioning-only` | _(empty)_ | `yes` | Version bumps only |
-| `Makefile.python` | `makefiles.config.python` | `python` | `no` | Python package / app |
-| `Makefile.python-docs` | `makefiles.config.python-docs` | `python mkdocs` | `no` | Python project with MkDocs |
-| `Makefile.bash-project` | `makefiles.config.bash-project` | `bash` | `yes` | Shell-script repositories |
-| `Makefile.ruby` | `makefiles.config.ruby` | `ruby` | `yes` | Ruby gem / library projects |
-| `Makefile.perl` | `makefiles.config.perl` | `perl` | `yes` | Perl scripts and modules |
-| `Makefile.php` | `makefiles.config.php` | `php` | `yes` | PHP applications and libraries |
+| Wrapper                    | Config                             | skills          | update_wrapper | Use when                       |
+| -------------------------- | ---------------------------------- | --------------- | -------------- | ------------------------------ |
+| `Makefile.versioning-only` | `makefiles.config.versioning-only` | *(empty)*       | `yes`          | Version bumps only             |
+| `Makefile.python`          | `makefiles.config.python`          | `python`        | `no`           | Python package / app           |
+| `Makefile.python-docs`     | `makefiles.config.python-docs`     | `python mkdocs` | `no`           | Python project with MkDocs     |
+| `Makefile.bash-project`    | `makefiles.config.bash-project`    | `bash`          | `yes`          | Shell-script repositories      |
+| `Makefile.ruby`            | `makefiles.config.ruby`            | `ruby`          | `yes`          | Ruby gem / library projects    |
+| `Makefile.perl`            | `makefiles.config.perl`            | `perl`          | `yes`          | Perl scripts and modules       |
+| `Makefile.php`             | `makefiles.config.php`             | `php`           | `yes`          | PHP applications and libraries |
 
 </div>
 
@@ -29,7 +29,7 @@ or copy only `templates/Makefile` and edit `makefiles.config` after `make init`.
     That overlay would be wiped if `make update` refreshed the wrapper, so
     their configs set `update_wrapper = no`. Skills still update normally.
 
-## Versioning only
+## Versioning Only
 
 `makefiles.config.versioning-only`:
 
