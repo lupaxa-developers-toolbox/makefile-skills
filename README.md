@@ -7,7 +7,7 @@
 <h1 align="center">Makefile Skills</h1>
 
 Reusable Makefile skills for project versioning, Python, MkDocs, Bash, Ruby,
-Perl, and PHP workflows.
+Perl, PHP, and PowerShell workflows.
 
 ## Adopt the Wrapper
 
@@ -28,8 +28,9 @@ Perl, and PHP workflows.
    ```
 
    Versioning is always available. Optional skills are `python`, `mkdocs`,
-   `bash`, `ruby`, `perl`, and `php`. Enable the new validation skills with
-   `skills = perl` or `skills = php`. To add another language, copy
+   `bash`, `ruby`, `perl`, `php`, and `powershell`. Enable the new validation
+   skills with `skills = perl`, `skills = php`, or `skills = powershell`. To
+   add another language, copy
    [`skills/_template.language.mk`](skills/_template.language.mk) to
    `skills/<id>.mk` and follow the checklist in that file.
 
@@ -145,10 +146,15 @@ Enable `php` for `make php-doctor`, `make php-syntax`, `make php-cs`,
 `make php-stan`, `make php-lint`, and `make php-check`. Syntax checks use
 `PHP_FILES`; PHP_CodeSniffer and PHPStan analyse `SRC_DIR`.
 
-The Perl and PHP v1 skills intentionally have no test, build, publish, or
-format targets. Their tool commands and flags are overridable with `PERL`,
-`PERLCRITIC`, `PERLCRITIC_FLAGS`, `PHP`, `PHPCS`, `PHPCS_FLAGS`, `PHPSTAN`,
-and `PHPSTAN_FLAGS`.
+Enable `powershell` for `make powershell-doctor`, `make powershell-syntax`,
+`make powershell-analyze`, `make powershell-lint`, and `make powershell-check`.
+Syntax checks and PSScriptAnalyzer both use `POWERSHELL_FILES` (discovered
+below `SRC_DIR`).
+
+The Perl, PHP, and PowerShell v1 skills intentionally have no test, build,
+publish, or format targets. Their tool commands and flags are overridable
+with `PERL`, `PERLCRITIC`, `PERLCRITIC_FLAGS`, `PHP`, `PHPCS`, `PHPCS_FLAGS`,
+`PHPSTAN`, `PHPSTAN_FLAGS`, `PWSH`, and `SCRIPTANALYZER_FLAGS`.
 
 Run `make help` in a consumer project to see only the versioning commands and
 the optional skills selected in `makefiles.config`.

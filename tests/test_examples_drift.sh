@@ -106,6 +106,9 @@ assert_config_skills "makefiles.config.perl" \
 assert_config_skills "makefiles.config.php" \
   "$EXAMPLES_DIR/makefiles.config.php" "php"
 
+assert_config_skills "makefiles.config.powershell" \
+  "$EXAMPLES_DIR/makefiles.config.powershell" "powershell"
+
 assert_config_skills "makefiles.config.python" \
   "$EXAMPLES_DIR/makefiles.config.python" "python" "no"
 

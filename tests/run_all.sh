@@ -13,5 +13,6 @@ bash tests/test_bash_skill.sh
 bash tests/test_ruby_skill.sh
 bash tests/test_perl_skill.sh
 bash tests/test_php_skill.sh
+bash tests/test_powershell_skill.sh
 bash tests/test_examples_drift.sh
 echo "PASS: all makefile-skills tests"

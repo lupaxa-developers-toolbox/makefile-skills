@@ -23,15 +23,15 @@ Unknown keys are a hard error.
 
 <div class="lupaxa-table lupaxa-table--config" markdown="1">
 
-| Config key       | Make variable              | Default                                                            | Description                                                                          |
-| ---------------- | -------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `skills`         | `SKILLS`                   | *(empty)*                                                          | Optional skills: `python`, `mkdocs`, `bash`, `ruby`, `perl`, `php` (space-separated) |
-| `ref`            | `MAKEFILES_REF`            | `head`                                                             | `head` → tip of `master`, or a tag such as `v1.0.0`                                  |
-| `transport`      | `MAKEFILES_TRANSPORT`      | `https`                                                            | `ssh`, `https`, or `http` (https default so public consumers need no org SSH)        |
-| `repo_ssh`       | `MAKEFILES_REPO_SSH`       | `git@github.com:lupaxa-developers-toolbox/makefile-skills.git`     | SSH clone URL                                                                        |
-| `repo_http`      | `MAKEFILES_REPO_HTTP`      | `https://github.com/lupaxa-developers-toolbox/makefile-skills.git` | HTTPS clone URL                                                                      |
-| `custom_dir`     | `MAKEFILES_CUSTOM_DIR`     | `.makefiles-custom`                                                | Directory of project `.mk` fragments `-include`d after library skills                |
-| `update_wrapper` | `MAKEFILES_UPDATE_WRAPPER` | `yes`                                                              | When truthy, `make update` overwrites `./Makefile` from upstream template            |
+| Config key       | Make variable              | Default                                                            | Description                                                                                        |
+| ---------------- | -------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `skills`         | `SKILLS`                   | *(empty)*                                                          | Optional skills: `python`, `mkdocs`, `bash`, `ruby`, `perl`, `php`, `powershell` (space-separated) |
+| `ref`            | `MAKEFILES_REF`            | `head`                                                             | `head` → tip of `master`, or a tag such as `v1.0.0`                                                |
+| `transport`      | `MAKEFILES_TRANSPORT`      | `https`                                                            | `ssh`, `https`, or `http` (https default so public consumers need no org SSH)                      |
+| `repo_ssh`       | `MAKEFILES_REPO_SSH`       | `git@github.com:lupaxa-developers-toolbox/makefile-skills.git`     | SSH clone URL                                                                                      |
+| `repo_http`      | `MAKEFILES_REPO_HTTP`      | `https://github.com/lupaxa-developers-toolbox/makefile-skills.git` | HTTPS clone URL                                                                                    |
+| `custom_dir`     | `MAKEFILES_CUSTOM_DIR`     | `.makefiles-custom`                                                | Directory of project `.mk` fragments `-include`d after library skills                              |
+| `update_wrapper` | `MAKEFILES_UPDATE_WRAPPER` | `yes`                                                              | When truthy, `make update` overwrites `./Makefile` from upstream template                          |
 
 </div>
 
@@ -327,6 +327,40 @@ Discovery is hybrid: `php-syntax` uses `PHP_FILES`, while `php-cs` and
 `php-stan` pass `SRC_DIR` to their tools so project configuration controls the
 analysed tree. Override `PHP_FILES` for syntax-only exceptions. The v1 skill
 does not provide test, build, publish, or format targets.
+
+## PowerShell Skill
+
+Enable with `skills = powershell` in `makefiles.config`.
+
+<div class="lupaxa-table lupaxa-table--commands" markdown="1">
+
+| Command                    | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| `make powershell-doctor`   | Check `pwsh`, PSScriptAnalyzer, and source discovery          |
+| `make powershell-syntax`   | Parse each file in `POWERSHELL_FILES`                         |
+| `make powershell-analyze`  | Run PSScriptAnalyzer on each file in `POWERSHELL_FILES`       |
+| `make powershell-lint`     | Run syntax validation and PSScriptAnalyzer                    |
+| `make powershell-check`    | Alias of `powershell-lint`                                    |
+
+</div>
+
+### PowerShell Variables
+
+<div class="lupaxa-table lupaxa-table--vars" markdown="1">
+
+| Variable               | Default                                                    |
+| ---------------------- | ---------------------------------------------------------- |
+| `PWSH`                 | `pwsh`                                                     |
+| `SRC_DIR`              | `.`                                                        |
+| `POWERSHELL_FILES`     | `*.ps1`, `*.psm1`, and `*.psd1` discovered under `SRC_DIR` |
+| `SCRIPTANALYZER_FLAGS` | *(empty)*                                                  |
+
+</div>
+
+Syntax and analysis both use `POWERSHELL_FILES`. When
+`PSScriptAnalyzerSettings.psd1` exists in the repo root, analysis passes it
+as `-Settings`. The v1 skill does not provide test, build, publish, or
+format targets.
 
 ## Repository Layout (This Library)
 

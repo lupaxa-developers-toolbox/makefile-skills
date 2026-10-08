@@ -240,6 +240,25 @@ make php-check SRC_DIR=src PHPCS_FLAGS="--standard=PSR12" PHPSTAN_FLAGS="--level
 
 The v1 PHP skill has no test, build, publish, or format target.
 
+## PowerShell Skill
+
+Enable with `skills = powershell` in `makefiles.config`.
+
+```bash
+make powershell-doctor
+make powershell-syntax
+make powershell-analyze
+make powershell-check          # syntax + PSScriptAnalyzer
+```
+
+`powershell-syntax` parses `POWERSHELL_FILES` (`*.ps1`, `*.psm1`, and `*.psd1`
+below `SRC_DIR`) with `pwsh`. `powershell-analyze` runs PSScriptAnalyzer on
+those same files. When `PSScriptAnalyzerSettings.psd1` exists in the repo
+root, the analyzer loads it. Override the binary with `PWSH` and extra
+analyzer arguments with `SCRIPTANALYZER_FLAGS`.
+
+The v1 PowerShell skill has no test, build, publish, or format target.
+
 ## Switching SSH and HTTPS
 
 Default `transport` is **`https`**, so consumers outside the organisation can

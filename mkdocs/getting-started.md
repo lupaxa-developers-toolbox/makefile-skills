@@ -33,9 +33,9 @@
    ```
 
    Versioning is always available. Optional skills are `python`, `mkdocs`,
-   `bash`, `ruby`, `perl`, and `php`. Use `skills = perl` or `skills = php`
-   for the corresponding validation skill; list multiple skills separated by
-   spaces.
+   `bash`, `ruby`, `perl`, `php`, and `powershell`. Use `skills = perl`,
+   `skills = php`, or `skills = powershell` for the corresponding validation
+   skill; list multiple skills separated by spaces.
 
 5.   Inspect:
 

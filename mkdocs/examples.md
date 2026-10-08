@@ -16,6 +16,7 @@ except where noted below.
 | `Makefile.ruby`            | `makefiles.config.ruby`            | `ruby`          | `yes`          | Ruby gem / library projects    |
 | `Makefile.perl`            | `makefiles.config.perl`            | `perl`          | `yes`          | Perl scripts and modules       |
 | `Makefile.php`             | `makefiles.config.php`             | `php`           | `yes`          | PHP applications and libraries |
+| `Makefile.powershell`      | `makefiles.config.powershell`      | `powershell`    | `yes`          | PowerShell scripts and modules |
 
 </div>
 
@@ -148,6 +149,23 @@ cp examples/makefiles.config.php ./makefiles.config
 make init
 make php-doctor
 make php-check
+```
+
+## PowerShell
+
+`makefiles.config.powershell`:
+
+```ini
+skills = powershell
+update_wrapper = yes
+```
+
+```bash
+cp examples/Makefile.powershell ./Makefile
+cp examples/makefiles.config.powershell ./makefiles.config
+make init
+make powershell-doctor
+make powershell-check
 ```
 
 !!! tip "Ignore the clone"
