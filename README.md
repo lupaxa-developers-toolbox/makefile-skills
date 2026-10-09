@@ -7,7 +7,23 @@
 <h1 align="center">Makefile Skills</h1>
 
 Reusable Makefile skills for project versioning, Python, MkDocs, Bash, Ruby,
-Perl, PHP, and PowerShell workflows.
+Perl, PHP, PowerShell, and JavaScript workflows.
+
+## Supported Languages
+
+Versioning is always on. The other skills are optional.
+
+| Skill      | Always on? | Purpose                                                                     |
+| ---------- | ---------- | --------------------------------------------------------------------------- |
+| Versioning | Yes        | Direct stable bumps plus optional `-dev` / `-rc` cycles (`bump-my-version`) |
+| Bash       | Optional   | Discover scripts, `bash -n`, ShellCheck                                     |
+| JavaScript | Optional   | `node --check` and ESLint                                                   |
+| MkDocs     | Optional   | Build and serve docs (`mkdocs-serve` supports custom ports)                 |
+| Perl       | Optional   | `perl -c` syntax checks and Perl::Critic                                    |
+| PHP        | Optional   | `php -l`, PHP_CodeSniffer, and PHPStan                                      |
+| PowerShell | Optional   | `pwsh` parse and PSScriptAnalyzer                                           |
+| Python     | Optional   | Lint, type-check, test, audit, build, publish (prefixed targets)            |
+| Ruby       | Optional   | Bundler install, RuboCop, `rake test`, gem build/publish                    |
 
 ## Adopt the Wrapper
 
@@ -28,8 +44,9 @@ Perl, PHP, and PowerShell workflows.
    ```
 
    Versioning is always available. Optional skills are `python`, `mkdocs`,
-   `bash`, `ruby`, `perl`, `php`, and `powershell`. Enable the new validation
-   skills with `skills = perl`, `skills = php`, or `skills = powershell`. To
+   `bash`, `ruby`, `perl`, `php`, `powershell`, and `javascript`. Enable the
+   new validation skills with `skills = perl`, `skills = php`,
+   `skills = powershell`, or `skills = javascript`. To
    add another language, copy
    [`skills/_template.language.mk`](skills/_template.language.mk) to
    `skills/<id>.mk` and follow the checklist in that file.
@@ -151,10 +168,16 @@ Enable `powershell` for `make powershell-doctor`, `make powershell-syntax`,
 Syntax checks and PSScriptAnalyzer both use `POWERSHELL_FILES` (discovered
 below `SRC_DIR`).
 
-The Perl, PHP, and PowerShell v1 skills intentionally have no test, build,
-publish, or format targets. Their tool commands and flags are overridable
-with `PERL`, `PERLCRITIC`, `PERLCRITIC_FLAGS`, `PHP`, `PHPCS`, `PHPCS_FLAGS`,
-`PHPSTAN`, `PHPSTAN_FLAGS`, `PWSH`, and `SCRIPTANALYZER_FLAGS`.
+Enable `javascript` for `make javascript-doctor`, `make javascript-syntax`,
+`make javascript-analyze`, `make javascript-lint`, and `make javascript-check`.
+Syntax checks and ESLint both use `JAVASCRIPT_FILES` (discovered below
+`SRC_DIR`).
+
+The Perl, PHP, PowerShell, and JavaScript v1 skills intentionally have no
+test, build, publish, or format targets. Their tool commands and flags are
+overridable with `PERL`, `PERLCRITIC`, `PERLCRITIC_FLAGS`, `PHP`, `PHPCS`,
+`PHPCS_FLAGS`, `PHPSTAN`, `PHPSTAN_FLAGS`, `PWSH`, `SCRIPTANALYZER_FLAGS`,
+`NODE`, `ESLINT`, and `ESLINT_FLAGS`.
 
 Run `make help` in a consumer project to see only the versioning commands and
 the optional skills selected in `makefiles.config`.

@@ -259,6 +259,25 @@ analyzer arguments with `SCRIPTANALYZER_FLAGS`.
 
 The v1 PowerShell skill has no test, build, publish, or format target.
 
+## JavaScript Skill
+
+Enable with `skills = javascript` in `makefiles.config`.
+
+```bash
+make javascript-doctor
+make javascript-syntax
+make javascript-analyze
+make javascript-check          # syntax + ESLint
+```
+
+`javascript-syntax` runs `node --check` on `JAVASCRIPT_FILES` (`*.js`,
+`*.mjs`, and `*.cjs` below `SRC_DIR`). `javascript-analyze` runs ESLint on
+those same files. ESLint uses the project's own config when one exists.
+Override the binaries with `NODE` and `ESLINT`, and extra analyzer arguments
+with `ESLINT_FLAGS`.
+
+The v1 JavaScript skill has no test, build, publish, or format target.
+
 ## Switching SSH and HTTPS
 
 Default `transport` is **`https`**, so consumers outside the organisation can

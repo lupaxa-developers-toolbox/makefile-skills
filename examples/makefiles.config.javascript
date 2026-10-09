@@ -3,7 +3,7 @@
 # Copy only templates/Makefile into a new project, then run: make init
 
 # Optional skills (space-separated): python, mkdocs, bash, ruby, perl, php, powershell, javascript
-skills = python
+skills = javascript
 
 # head = tip of master; or a release tag like v1.0.0
 ref = head
@@ -20,5 +20,4 @@ custom_dir = .makefiles-custom
 
 # yes = make update also refreshes ./Makefile from upstream template (default)
 # no  = update skills only; keep a hand-edited Makefile
-# CI overlay in Makefile.python* would be wiped if wrapper refresh stayed on.
-update_wrapper = no
+update_wrapper = yes

@@ -10,13 +10,14 @@ except where noted below.
 | Wrapper                    | Config                             | skills          | update_wrapper | Use when                       |
 | -------------------------- | ---------------------------------- | --------------- | -------------- | ------------------------------ |
 | `Makefile.versioning-only` | `makefiles.config.versioning-only` | *(empty)*       | `yes`          | Version bumps only             |
-| `Makefile.python`          | `makefiles.config.python`          | `python`        | `no`           | Python package / app           |
-| `Makefile.python-docs`     | `makefiles.config.python-docs`     | `python mkdocs` | `no`           | Python project with MkDocs     |
 | `Makefile.bash-project`    | `makefiles.config.bash-project`    | `bash`          | `yes`          | Shell-script repositories      |
-| `Makefile.ruby`            | `makefiles.config.ruby`            | `ruby`          | `yes`          | Ruby gem / library projects    |
+| `Makefile.javascript`      | `makefiles.config.javascript`      | `javascript`    | `yes`          | JavaScript scripts and modules |
 | `Makefile.perl`            | `makefiles.config.perl`            | `perl`          | `yes`          | Perl scripts and modules       |
 | `Makefile.php`             | `makefiles.config.php`             | `php`           | `yes`          | PHP applications and libraries |
 | `Makefile.powershell`      | `makefiles.config.powershell`      | `powershell`    | `yes`          | PowerShell scripts and modules |
+| `Makefile.python`          | `makefiles.config.python`          | `python`        | `no`           | Python package / app           |
+| `Makefile.python-docs`     | `makefiles.config.python-docs`     | `python mkdocs` | `no`           | Python project with MkDocs     |
+| `Makefile.ruby`            | `makefiles.config.ruby`            | `ruby`          | `yes`          | Ruby gem / library projects    |
 
 </div>
 
@@ -49,40 +50,6 @@ make bump-patch
 # or, to start a -devN pre-release cycle instead: make bump-dev
 ```
 
-## Python
-
-`makefiles.config.python`:
-
-```ini
-skills = python
-update_wrapper = no
-```
-
-```bash
-cp examples/Makefile.python ./Makefile
-cp examples/makefiles.config.python ./makefiles.config
-make init
-make python-install-dev
-make python-check
-```
-
-## Python + MkDocs
-
-`makefiles.config.python-docs`:
-
-```ini
-skills = python mkdocs
-update_wrapper = no
-```
-
-```bash
-cp examples/Makefile.python-docs ./Makefile
-cp examples/makefiles.config.python-docs ./makefiles.config
-make init
-make python-check
-make mkdocs-serve MKDOCS_PORT=8000
-```
-
 ## Bash
 
 `makefiles.config.bash-project`:
@@ -100,21 +67,21 @@ make bash-list-scripts
 make bash-check
 ```
 
-## Ruby
+## JavaScript
 
-`makefiles.config.ruby`:
+`makefiles.config.javascript`:
 
 ```ini
-skills = ruby
+skills = javascript
 update_wrapper = yes
 ```
 
 ```bash
-cp examples/Makefile.ruby ./Makefile
-cp examples/makefiles.config.ruby ./makefiles.config
+cp examples/Makefile.javascript ./Makefile
+cp examples/makefiles.config.javascript ./makefiles.config
 make init
-make ruby-bundle
-make ruby-check
+make javascript-doctor
+make javascript-check
 ```
 
 ## Perl
@@ -166,6 +133,57 @@ cp examples/makefiles.config.powershell ./makefiles.config
 make init
 make powershell-doctor
 make powershell-check
+```
+
+## Python
+
+`makefiles.config.python`:
+
+```ini
+skills = python
+update_wrapper = no
+```
+
+```bash
+cp examples/Makefile.python ./Makefile
+cp examples/makefiles.config.python ./makefiles.config
+make init
+make python-install-dev
+make python-check
+```
+
+## Python + MkDocs
+
+`makefiles.config.python-docs`:
+
+```ini
+skills = python mkdocs
+update_wrapper = no
+```
+
+```bash
+cp examples/Makefile.python-docs ./Makefile
+cp examples/makefiles.config.python-docs ./makefiles.config
+make init
+make python-check
+make mkdocs-serve MKDOCS_PORT=8000
+```
+
+## Ruby
+
+`makefiles.config.ruby`:
+
+```ini
+skills = ruby
+update_wrapper = yes
+```
+
+```bash
+cp examples/Makefile.ruby ./Makefile
+cp examples/makefiles.config.ruby ./makefiles.config
+make init
+make ruby-bundle
+make ruby-check
 ```
 
 !!! tip "Ignore the clone"
