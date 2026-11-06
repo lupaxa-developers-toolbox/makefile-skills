@@ -173,6 +173,26 @@ make bash-list-scripts SHELL_SOURCE_DIR=bin
 make bash-list-scripts SHELL_FILES="bin/tool scripts/install.sh"
 ```
 
+## C Skill
+
+Enable with `skills = c` in `makefiles.config`.
+
+```bash
+make c-doctor
+make c-syntax
+make c-analyze
+make c-check          # syntax + cppcheck
+```
+
+`c-syntax` runs `gcc -fsyntax-only` on `C_FILES` (`*.c` and `*.h` below
+`SRC_DIR`). Header files are parsed with `-x c-header`. `c-analyze` runs
+cppcheck on those same files, with `--error-exitcode=1` so findings fail
+the target. Override the compiler with `CC`, extra syntax arguments with
+`CFLAGS`, the analyzer with `CPPCHECK`, and extra analyzer arguments with
+`CPPCHECK_FLAGS`.
+
+The v1 C skill has no test, build, publish, or format target.
+
 ## Ruby Skill
 
 Enable with `skills = ruby` in `makefiles.config`.

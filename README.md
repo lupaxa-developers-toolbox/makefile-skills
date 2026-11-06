@@ -7,7 +7,7 @@
 <h1 align="center">Makefile Skills</h1>
 
 Reusable Makefile skills for project versioning, Python, MkDocs, Bash, Ruby,
-Perl, PHP, PowerShell, and JavaScript workflows.
+Perl, PHP, PowerShell, JavaScript, and C workflows.
 
 ## Supported Languages
 
@@ -17,6 +17,7 @@ Versioning is always on. The other skills are optional.
 | ---------- | ---------- | --------------------------------------------------------------------------- |
 | Versioning | Yes        | Direct stable bumps plus optional `-dev` / `-rc` cycles (`bump-my-version`) |
 | Bash       | Optional   | Discover scripts, `bash -n`, ShellCheck                                     |
+| C          | Optional   | `gcc -fsyntax-only` and cppcheck                                            |
 | JavaScript | Optional   | `node --check` and ESLint                                                   |
 | MkDocs     | Optional   | Build and serve docs (`mkdocs-serve` supports custom ports)                 |
 | Perl       | Optional   | `perl -c` syntax checks and Perl::Critic                                    |
@@ -43,10 +44,10 @@ Versioning is always on. The other skills are optional.
    ref = head
    ```
 
-   Versioning is always available. Optional skills are `python`, `mkdocs`,
-   `bash`, `ruby`, `perl`, `php`, `powershell`, and `javascript`. Enable the
-   new validation skills with `skills = perl`, `skills = php`,
-   `skills = powershell`, or `skills = javascript`. To
+   Versioning is always available. Optional skills are `bash`, `c`,
+   `javascript`, `mkdocs`, `perl`, `php`, `powershell`, `python`, and
+   `ruby`. Enable the validation skills with `skills = c`, `skills = perl`,
+   `skills = php`, `skills = powershell`, or `skills = javascript`. To
    add another language, copy
    [`skills/_template.language.mk`](skills/_template.language.mk) to
    `skills/<id>.mk` and follow the checklist in that file.
@@ -149,6 +150,11 @@ make mkdocs-serve MKDOCS_PORT=8002
 Enable `bash` for `make bash-list-scripts`, `make bash-syntax`,
 `make bash-shellcheck`, and `make bash-check`.
 
+Enable `c` for `make c-doctor`, `make c-syntax`, `make c-analyze`,
+`make c-lint`, and `make c-check`. Syntax checks and cppcheck both use
+`C_FILES` (discovered below `SRC_DIR`). Headers are parsed with
+`-x c-header`.
+
 Enable `ruby` for `make ruby-bundle`, `make ruby-lint`, `make ruby-format`,
 `make ruby-test`, `make ruby-check`, and `make ruby-build`. When a `Gemfile`
 is present, lint, format, check-diff, test, and check run via `bundle exec`
@@ -173,11 +179,12 @@ Enable `javascript` for `make javascript-doctor`, `make javascript-syntax`,
 Syntax checks and ESLint both use `JAVASCRIPT_FILES` (discovered below
 `SRC_DIR`).
 
-The Perl, PHP, PowerShell, and JavaScript v1 skills intentionally have no
+The Perl, PHP, PowerShell, JavaScript, and C v1 skills intentionally have no
 test, build, publish, or format targets. Their tool commands and flags are
 overridable with `PERL`, `PERLCRITIC`, `PERLCRITIC_FLAGS`, `PHP`, `PHPCS`,
 `PHPCS_FLAGS`, `PHPSTAN`, `PHPSTAN_FLAGS`, `PWSH`, `SCRIPTANALYZER_FLAGS`,
-`NODE`, `ESLINT`, and `ESLINT_FLAGS`.
+`NODE`, `ESLINT`, `ESLINT_FLAGS`, `CC`, `CFLAGS`, `CPPCHECK`, and
+`CPPCHECK_FLAGS`.
 
 Run `make help` in a consumer project to see only the versioning commands and
 the optional skills selected in `makefiles.config`.

@@ -112,6 +112,9 @@ assert_config_skills "makefiles.config.powershell" \
 assert_config_skills "makefiles.config.javascript" \
   "$EXAMPLES_DIR/makefiles.config.javascript" "javascript"
 
+assert_config_skills "makefiles.config.c" \
+  "$EXAMPLES_DIR/makefiles.config.c" "c"
+
 assert_config_skills "makefiles.config.python" \
   "$EXAMPLES_DIR/makefiles.config.python" "python" "no"
 

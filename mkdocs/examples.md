@@ -11,6 +11,7 @@ except where noted below.
 | -------------------------- | ---------------------------------- | --------------- | -------------- | ------------------------------ |
 | `Makefile.versioning-only` | `makefiles.config.versioning-only` | *(empty)*       | `yes`          | Version bumps only             |
 | `Makefile.bash-project`    | `makefiles.config.bash-project`    | `bash`          | `yes`          | Shell-script repositories      |
+| `Makefile.c`               | `makefiles.config.c`               | `c`             | `yes`          | C sources and headers          |
 | `Makefile.javascript`      | `makefiles.config.javascript`      | `javascript`    | `yes`          | JavaScript scripts and modules |
 | `Makefile.perl`            | `makefiles.config.perl`            | `perl`          | `yes`          | Perl scripts and modules       |
 | `Makefile.php`             | `makefiles.config.php`             | `php`           | `yes`          | PHP applications and libraries |
@@ -65,6 +66,23 @@ cp examples/makefiles.config.bash-project ./makefiles.config
 make init
 make bash-list-scripts
 make bash-check
+```
+
+## C
+
+`makefiles.config.c`:
+
+```ini
+skills = c
+update_wrapper = yes
+```
+
+```bash
+cp examples/Makefile.c ./Makefile
+cp examples/makefiles.config.c ./makefiles.config
+make init
+make c-doctor
+make c-check
 ```
 
 ## JavaScript

@@ -32,11 +32,11 @@
    ref = head
    ```
 
-   Versioning is always available. Optional skills are `python`, `mkdocs`,
-   `bash`, `ruby`, `perl`, `php`, `powershell`, and `javascript`. Use
-   `skills = perl`, `skills = php`, `skills = powershell`, or
-   `skills = javascript` for the corresponding validation skill; list multiple
-   skills separated by spaces.
+   Versioning is always available. Optional skills are `bash`, `c`,
+   `javascript`, `mkdocs`, `perl`, `php`, `powershell`, `python`, and
+   `ruby`. Use `skills = c`, `skills = perl`, `skills = php`,
+   `skills = powershell`, or `skills = javascript` for the corresponding
+   validation skill; list multiple skills separated by spaces.
 
 5.   Inspect:
 
