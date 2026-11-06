@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Print unique Cargo workspace roots under a source root, one per line.
+# A member crate reports its workspace root, so members are not listed again.
+# A crate that is not in a workspace is its own root.
+set -eu
+
+src="${1:-.}"
+cargo="${CARGO:-cargo}"
+
+if [ ! -d "$src" ]; then
+    echo "ERROR: source directory not found: $src" >&2
+    exit 2
+fi
+
+manifests="$(mktemp)"
+roots="$(mktemp)"
+trap 'rm -f "$manifests" "$roots"' EXIT
+
+find "$src" \
+    \( -path '*/.git/*' -o -path '*/.makefiles/*' -o -path '*/target/*' -o -path '*/vendor/*' \) -prune -o \
+    -name Cargo.toml -type f -print \
+    | sort >"$manifests"
+
+if [ ! -s "$manifests" ]; then
+    exit 0
+fi
+
+if ! command -v "$cargo" >/dev/null 2>&1; then
+    echo "ERROR: cargo command not found: $cargo" >&2
+    exit 1
+fi
+
+: >"$roots"
+while IFS= read -r manifest; do
+    [ -n "$manifest" ] || continue
+    if ! meta="$("$cargo" metadata --no-deps --format-version 1 --manifest-path "$manifest")"; then
+        echo "ERROR: cargo metadata failed for $manifest" >&2
+        exit 1
+    fi
+    root="$(printf '%s' "$meta" | grep -o '"workspace_root":"[^"]*"' | head -1 | sed 's/^"workspace_root":"//;s/"$//')"
+    if [ -z "$root" ]; then
+        echo "ERROR: cargo metadata did not report a workspace root for $manifest" >&2
+        exit 1
+    fi
+    printf '%s\n' "$root" >>"$roots"
+done <"$manifests"
+
+sort -u -o "$roots" "$roots"
+cat "$roots"

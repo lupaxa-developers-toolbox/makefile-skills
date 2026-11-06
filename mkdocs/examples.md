@@ -12,6 +12,7 @@ except where noted below.
 | `Makefile.versioning-only` | `makefiles.config.versioning-only` | *(empty)*       | `yes`          | Version bumps only             |
 | `Makefile.bash-project`    | `makefiles.config.bash-project`    | `bash`          | `yes`          | Shell-script repositories      |
 | `Makefile.c`               | `makefiles.config.c`               | `c`             | `yes`          | C sources and headers          |
+| `Makefile.go`              | `makefiles.config.go`              | `go`            | `yes`          | Go modules                     |
 | `Makefile.javascript`      | `makefiles.config.javascript`      | `javascript`    | `yes`          | JavaScript scripts and modules |
 | `Makefile.perl`            | `makefiles.config.perl`            | `perl`          | `yes`          | Perl scripts and modules       |
 | `Makefile.php`             | `makefiles.config.php`             | `php`           | `yes`          | PHP applications and libraries |
@@ -19,6 +20,7 @@ except where noted below.
 | `Makefile.python`          | `makefiles.config.python`          | `python`        | `no`           | Python package / app           |
 | `Makefile.python-docs`     | `makefiles.config.python-docs`     | `python mkdocs` | `no`           | Python project with MkDocs     |
 | `Makefile.ruby`            | `makefiles.config.ruby`            | `ruby`          | `yes`          | Ruby gem / library projects    |
+| `Makefile.rust`            | `makefiles.config.rust`            | `rust`          | `yes`          | Rust crates and workspaces     |
 
 </div>
 
@@ -83,6 +85,23 @@ cp examples/makefiles.config.c ./makefiles.config
 make init
 make c-doctor
 make c-check
+```
+
+## Go
+
+`makefiles.config.go`:
+
+```ini
+skills = go
+update_wrapper = yes
+```
+
+```bash
+cp examples/Makefile.go ./Makefile
+cp examples/makefiles.config.go ./makefiles.config
+make init
+make go-doctor
+make go-check
 ```
 
 ## JavaScript
@@ -202,6 +221,23 @@ cp examples/makefiles.config.ruby ./makefiles.config
 make init
 make ruby-bundle
 make ruby-check
+```
+
+## Rust
+
+`makefiles.config.rust`:
+
+```ini
+skills = rust
+update_wrapper = yes
+```
+
+```bash
+cp examples/Makefile.rust ./Makefile
+cp examples/makefiles.config.rust ./makefiles.config
+make init
+make rust-doctor
+make rust-check
 ```
 
 !!! tip "Ignore the clone"

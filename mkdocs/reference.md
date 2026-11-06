@@ -23,15 +23,15 @@ Unknown keys are a hard error.
 
 <div class="lupaxa-table lupaxa-table--config" markdown="1">
 
-| Config key       | Make variable              | Default                                                            | Description                                                                                                           |
-| ---------------- | -------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| `skills`         | `SKILLS`                   | *(empty)*                                                          | Optional skills: `bash`, `c`, `javascript`, `mkdocs`, `perl`, `php`, `powershell`, `python`, `ruby` (space-separated) |
-| `ref`            | `MAKEFILES_REF`            | `head`                                                             | `head` → tip of `master`, or a tag such as `v1.0.0`                                                                   |
-| `transport`      | `MAKEFILES_TRANSPORT`      | `https`                                                            | `ssh`, `https`, or `http` (https default so public consumers need no org SSH)                                         |
-| `repo_ssh`       | `MAKEFILES_REPO_SSH`       | `git@github.com:lupaxa-developers-toolbox/makefile-skills.git`     | SSH clone URL                                                                                                         |
-| `repo_http`      | `MAKEFILES_REPO_HTTP`      | `https://github.com/lupaxa-developers-toolbox/makefile-skills.git` | HTTPS clone URL                                                                                                       |
-| `custom_dir`     | `MAKEFILES_CUSTOM_DIR`     | `.makefiles-custom`                                                | Directory of project `.mk` fragments `-include`d after library skills                                                 |
-| `update_wrapper` | `MAKEFILES_UPDATE_WRAPPER` | `yes`                                                              | When truthy, `make update` overwrites `./Makefile` from upstream template                                             |
+| Config key       | Make variable              | Default                                                            | Description                                                                                                                         |
+| ---------------- | -------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `skills`         | `SKILLS`                   | *(empty)*                                                          | Optional skills: `bash`, `c`, `go`, `javascript`, `mkdocs`, `perl`, `php`, `powershell`, `python`, `ruby`, `rust` (space-separated) |
+| `ref`            | `MAKEFILES_REF`            | `head`                                                             | `head` → tip of `master`, or a tag such as `v1.0.0`                                                                                 |
+| `transport`      | `MAKEFILES_TRANSPORT`      | `https`                                                            | `ssh`, `https`, or `http` (https default so public consumers need no org SSH)                                                       |
+| `repo_ssh`       | `MAKEFILES_REPO_SSH`       | `git@github.com:lupaxa-developers-toolbox/makefile-skills.git`     | SSH clone URL                                                                                                                       |
+| `repo_http`      | `MAKEFILES_REPO_HTTP`      | `https://github.com/lupaxa-developers-toolbox/makefile-skills.git` | HTTPS clone URL                                                                                                                     |
+| `custom_dir`     | `MAKEFILES_CUSTOM_DIR`     | `.makefiles-custom`                                                | Directory of project `.mk` fragments `-include`d after library skills                                                               |
+| `update_wrapper` | `MAKEFILES_UPDATE_WRAPPER` | `yes`                                                              | When truthy, `make update` overwrites `./Makefile` from upstream template                                                           |
 
 </div>
 
@@ -242,6 +242,41 @@ Syntax and analysis both use `C_FILES`. A `.h` file is syntax-checked with
 `-x c-header`. cppcheck runs with `--error-exitcode=1`. The v1 skill does
 not provide test, build, publish, or format targets.
 
+## Go Skill
+
+Enable with `skills = go` in `makefiles.config`.
+
+<div class="lupaxa-table lupaxa-table--commands" markdown="1">
+
+| Command          | Description                         |
+| ---------------- | ----------------------------------- |
+| `make go-doctor` | Check `go` and module discovery     |
+| `make go-lint`   | Run `go vet ./...` in each module   |
+| `make go-test`   | Run `go test ./...` in each module  |
+| `make go-check`  | Run lint, then test                 |
+| `make go-build`  | Run `go build ./...` in each module |
+| `make go-clean`  | Run `go clean ./...` in each module |
+
+</div>
+
+### Go Variables
+
+<div class="lupaxa-table lupaxa-table--vars" markdown="1">
+
+| Variable         | Default                                      |
+| ---------------- | -------------------------------------------- |
+| `GO`             | `go`                                         |
+| `SRC_DIR`        | `.`                                          |
+| `GO_MODULE_DIRS` | `$(MAKEFILES_DIR)/skills/go/module-dirs`     |
+| `GO_VET_FLAGS`   | `./...`                                      |
+| `GO_TEST_FLAGS`  | `./...`                                      |
+| `GO_BUILD_FLAGS` | `./...`                                      |
+| `GO_CLEAN_FLAGS` | `./...`                                      |
+
+</div>
+
+Each discovered `go.mod` is one module. `go-check` does not build.
+
 ## Ruby Skill
 
 Enable with `skills = ruby` in `makefiles.config`.
@@ -430,6 +465,42 @@ Enable with `skills = javascript` in `makefiles.config`.
 Syntax and analysis both use `JAVASCRIPT_FILES`. ESLint loads the project's
 config when one exists. The v1 skill does not provide test, build, publish,
 or format targets.
+
+## Rust Skill
+
+Enable with `skills = rust` in `makefiles.config`.
+
+<div class="lupaxa-table lupaxa-table--commands" markdown="1">
+
+| Command            | Description                                           |
+| ------------------ | ----------------------------------------------------- |
+| `make rust-doctor` | Check `cargo`, clippy, and workspace discovery        |
+| `make rust-lint`   | Run `cargo clippy` in each workspace                  |
+| `make rust-test`   | Run `cargo test` in each workspace                    |
+| `make rust-check`  | Run lint, then test                                   |
+| `make rust-build`  | Run `cargo build` in each workspace                   |
+| `make rust-clean`  | Run `cargo clean` in each workspace                   |
+
+</div>
+
+### Rust Variables
+
+<div class="lupaxa-table lupaxa-table--vars" markdown="1">
+
+| Variable               | Default                                                    |
+| ---------------------- | ---------------------------------------------------------- |
+| `CARGO`                | `cargo`                                                    |
+| `SRC_DIR`              | `.`                                                        |
+| `RUST_WORKSPACE_ROOTS` | `$(MAKEFILES_DIR)/skills/rust/workspace-roots`             |
+| `CARGO_CLIPPY_FLAGS`   | `--workspace --all-targets -- -D warnings`                 |
+| `CARGO_TEST_FLAGS`     | `--workspace`                                              |
+| `CARGO_BUILD_FLAGS`    | `--workspace`                                              |
+| `CARGO_CLEAN_FLAGS`    | *(empty)*                                                  |
+
+</div>
+
+Member crates are folded into their workspace root. `rust-check` does not build.
+Clippy warnings fail `rust-lint` unless `CARGO_CLIPPY_FLAGS` is overridden.
 
 ## Repository Layout (This Library)
 

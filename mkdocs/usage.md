@@ -193,6 +193,26 @@ the target. Override the compiler with `CC`, extra syntax arguments with
 
 The v1 C skill has no test, build, publish, or format target.
 
+## Go Skill
+
+Enable with `skills = go` in `makefiles.config`.
+
+```bash
+make go-doctor
+make go-lint
+make go-test
+make go-check          # lint + test
+make go-build
+make go-clean
+```
+
+Every `go.mod` under `SRC_DIR` is a module. Packages inside a module are
+covered by `./...`. A nested `go.mod` is a separate module and gets its own
+run. `vendor` directories are skipped. `go-lint` runs `go vet`. `go-build`
+runs `go build ./...`, which checks that the packages compile. Override the
+tool with `GO` and the arguments with `GO_VET_FLAGS`, `GO_TEST_FLAGS`,
+`GO_BUILD_FLAGS`, and `GO_CLEAN_FLAGS`.
+
 ## Ruby Skill
 
 Enable with `skills = ruby` in `makefiles.config`.
@@ -297,6 +317,27 @@ Override the binaries with `NODE` and `ESLINT`, and extra analyzer arguments
 with `ESLINT_FLAGS`.
 
 The v1 JavaScript skill has no test, build, publish, or format target.
+
+## Rust Skill
+
+Enable with `skills = rust` in `makefiles.config`.
+
+```bash
+make rust-doctor
+make rust-lint
+make rust-test
+make rust-check          # lint + test
+make rust-build
+make rust-clean
+```
+
+Every `Cargo.toml` under `SRC_DIR` is inspected. `cargo metadata` reports the
+workspace root, and the skill runs there once. Member crates are not run
+again. A crate that is not in a workspace is its own root. `target` and
+`vendor` are skipped. `rust-lint` runs `cargo clippy` and treats warnings as
+errors. Override the tool with `CARGO` and the arguments with
+`CARGO_CLIPPY_FLAGS`, `CARGO_TEST_FLAGS`, `CARGO_BUILD_FLAGS`, and
+`CARGO_CLEAN_FLAGS`.
 
 ## Switching SSH and HTTPS
 

@@ -2,15 +2,15 @@
 # Language skill template
 # =============================================================================
 #
-# Create a new language skill (Ruby, Go, Rust, …):
+# Create a new language skill:
 #
 #   1. Copy this file:
-#        cp skills/_template.language.mk skills/go.mk
+#        cp skills/_template.language.mk skills/<id>.mk
 #   2. Replace placeholders in the new file (including target names):
-#        lang  → go          (skill id / target prefix; lowercase)
-#        Lang  → Go          (help / status section titles)
+#        lang  → <id>        (skill id / target prefix; lowercase)
+#        Lang  → <Name>      (help / status section titles)
 #   3. Enable in a consumer wrapper:
-#        SKILLS ?= go
+#        SKILLS ?= <id>
 #      or add to an examples/Makefile.* profile.
 #   4. Fill in tool variables and replace stub recipes.
 #   5. Checklist before merging:

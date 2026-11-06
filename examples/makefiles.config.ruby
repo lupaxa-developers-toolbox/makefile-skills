@@ -2,7 +2,7 @@
 # Edit this file freely. `make update` never overwrites it.
 # Copy only templates/Makefile into a new project, then run: make init
 
-# Optional skills (space-separated): bash, c, javascript, mkdocs, perl, php, powershell, python, ruby
+# Optional skills (space-separated): bash, c, go, javascript, mkdocs, perl, php, powershell, python, ruby, rust
 skills = ruby
 
 # head = tip of master; or a release tag like v1.0.0

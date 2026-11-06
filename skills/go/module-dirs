@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Print Go module directories under a source root, one per line.
+# A nested go.mod is its own module. vendor trees are skipped.
+set -eu
+
+src="${1:-.}"
+
+if [ ! -d "$src" ]; then
+    echo "ERROR: source directory not found: $src" >&2
+    exit 2
+fi
+
+find "$src" \
+    \( -path '*/.git/*' -o -path '*/.makefiles/*' -o -path '*/vendor/*' \) -prune -o \
+    -name go.mod -type f -print \
+    | sed 's:/go.mod$::' \
+    | sort

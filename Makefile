@@ -4,7 +4,7 @@
 MAKEFILES_MODE := library
 MAKEFILES_DIR  := .
 # Versioning is always included. Optional skills are listed alphabetically.
-SKILLS         ?= bash c javascript mkdocs perl php powershell python ruby
+SKILLS         ?= bash c go javascript mkdocs perl php powershell python ruby rust
 
 include templates/Makefile
 

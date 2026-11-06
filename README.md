@@ -7,7 +7,7 @@
 <h1 align="center">Makefile Skills</h1>
 
 Reusable Makefile skills for project versioning, Python, MkDocs, Bash, Ruby,
-Perl, PHP, PowerShell, JavaScript, and C workflows.
+Perl, PHP, PowerShell, JavaScript, C, Go, and Rust.
 
 ## Supported Languages
 
@@ -18,6 +18,7 @@ Versioning is always on. The other skills are optional.
 | Versioning | Yes        | Direct stable bumps plus optional `-dev` / `-rc` cycles (`bump-my-version`) |
 | Bash       | Optional   | Discover scripts, `bash -n`, ShellCheck                                     |
 | C          | Optional   | `gcc -fsyntax-only` and cppcheck                                            |
+| Go         | Optional   | `go vet`, `go test`, and `go build` in each module                          |
 | JavaScript | Optional   | `node --check` and ESLint                                                   |
 | MkDocs     | Optional   | Build and serve docs (`mkdocs-serve` supports custom ports)                 |
 | Perl       | Optional   | `perl -c` syntax checks and Perl::Critic                                    |
@@ -25,6 +26,7 @@ Versioning is always on. The other skills are optional.
 | PowerShell | Optional   | `pwsh` parse and PSScriptAnalyzer                                           |
 | Python     | Optional   | Lint, type-check, test, audit, build, publish (prefixed targets)            |
 | Ruby       | Optional   | Bundler install, RuboCop, `rake test`, gem build/publish                    |
+| Rust       | Optional   | `cargo clippy`, `cargo test`, and `cargo build` in each workspace           |
 
 ## Adopt the Wrapper
 
@@ -44,10 +46,11 @@ Versioning is always on. The other skills are optional.
    ref = head
    ```
 
-   Versioning is always available. Optional skills are `bash`, `c`,
-   `javascript`, `mkdocs`, `perl`, `php`, `powershell`, `python`, and
-   `ruby`. Enable the validation skills with `skills = c`, `skills = perl`,
-   `skills = php`, `skills = powershell`, or `skills = javascript`. To
+   Versioning is always available. Optional skills are `bash`, `c`, `go`,
+   `javascript`, `mkdocs`, `perl`, `php`, `powershell`, `python`, `ruby`,
+   and `rust`. Enable the validation skills with `skills = c`, `skills = perl`,
+   `skills = php`, `skills = powershell`, or `skills = javascript`. Enable
+   `skills = go` or `skills = rust` for module and workspace workflows. To
    add another language, copy
    [`skills/_template.language.mk`](skills/_template.language.mk) to
    `skills/<id>.mk` and follow the checklist in that file.
@@ -155,6 +158,10 @@ Enable `c` for `make c-doctor`, `make c-syntax`, `make c-analyze`,
 `C_FILES` (discovered below `SRC_DIR`). Headers are parsed with
 `-x c-header`.
 
+Enable `go` for `make go-doctor`, `make go-lint`, `make go-test`,
+`make go-check`, `make go-build`, and `make go-clean`. Each `go.mod` under
+`SRC_DIR` is one module. `vendor` is skipped. `go-check` is lint then test.
+
 Enable `ruby` for `make ruby-bundle`, `make ruby-lint`, `make ruby-format`,
 `make ruby-test`, `make ruby-check`, and `make ruby-build`. When a `Gemfile`
 is present, lint, format, check-diff, test, and check run via `bundle exec`
@@ -179,12 +186,21 @@ Enable `javascript` for `make javascript-doctor`, `make javascript-syntax`,
 Syntax checks and ESLint both use `JAVASCRIPT_FILES` (discovered below
 `SRC_DIR`).
 
+Enable `rust` for `make rust-doctor`, `make rust-lint`, `make rust-test`,
+`make rust-check`, `make rust-build`, and `make rust-clean`. Each Cargo
+workspace root under `SRC_DIR` is one run. Member crates are not run again.
+`rust-lint` is `cargo clippy` and fails on warnings. `rust-check` is lint
+then test.
+
 The Perl, PHP, PowerShell, JavaScript, and C v1 skills intentionally have no
 test, build, publish, or format targets. Their tool commands and flags are
 overridable with `PERL`, `PERLCRITIC`, `PERLCRITIC_FLAGS`, `PHP`, `PHPCS`,
 `PHPCS_FLAGS`, `PHPSTAN`, `PHPSTAN_FLAGS`, `PWSH`, `SCRIPTANALYZER_FLAGS`,
 `NODE`, `ESLINT`, `ESLINT_FLAGS`, `CC`, `CFLAGS`, `CPPCHECK`, and
-`CPPCHECK_FLAGS`.
+`CPPCHECK_FLAGS`. Go and Rust commands and flags are overridable with `GO`,
+`GO_VET_FLAGS`, `GO_TEST_FLAGS`, `GO_BUILD_FLAGS`, `GO_CLEAN_FLAGS`, `CARGO`,
+`CARGO_CLIPPY_FLAGS`, `CARGO_TEST_FLAGS`, `CARGO_BUILD_FLAGS`, and
+`CARGO_CLEAN_FLAGS`.
 
 Run `make help` in a consumer project to see only the versioning commands and
 the optional skills selected in `makefiles.config`.

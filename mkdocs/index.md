@@ -2,7 +2,7 @@
 
 Reusable **Makefile skills** for project versioning, Python quality tooling,
 MkDocs documentation, Bash validation, Ruby gem workflows, and Perl, PHP,
-PowerShell, JavaScript, and C validation.
+PowerShell, JavaScript, and C validation, plus Go modules and Rust workspaces.
 
 Each consumer project keeps a thin wrapper `Makefile` and a `makefiles.config`
 file. The wrapper clones this library into a gitignored `.makefiles/` directory,
@@ -26,6 +26,7 @@ lets you refresh them with `make update`, while each project commits its wrapper
 | Versioning | Yes        | Direct stable bumps plus optional `-dev` / `-rc` cycles (`bump-my-version`) |
 | Bash       | Optional   | Discover scripts, `bash -n`, ShellCheck                                     |
 | C          | Optional   | `gcc -fsyntax-only` and cppcheck                                            |
+| Go         | Optional   | `go vet`, `go test`, and `go build` in each module                          |
 | JavaScript | Optional   | `node --check` and ESLint                                                   |
 | MkDocs     | Optional   | Build and serve docs (`mkdocs-serve` supports custom ports)                 |
 | Perl       | Optional   | `perl -c` syntax checks and Perl::Critic                                    |
@@ -33,5 +34,6 @@ lets you refresh them with `make update`, while each project commits its wrapper
 | PowerShell | Optional   | `pwsh` parse and PSScriptAnalyzer                                           |
 | Python     | Optional   | Lint, type-check, test, audit, build, publish (prefixed targets)            |
 | Ruby       | Optional   | Bundler install, RuboCop, `rake test`, gem build/publish                    |
+| Rust       | Optional   | `cargo clippy`, `cargo test`, and `cargo build` in each workspace           |
 
 </div>
