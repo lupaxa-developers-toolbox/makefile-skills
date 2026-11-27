@@ -121,7 +121,7 @@ init install:
 		exit 2; \
 	fi; \
 	mf_lifecycle_say "==> Cloning skills from $(MAKEFILES_REPO) into $(MAKEFILES_DIR)"; \
-	if ! mf_git_quiet git clone -q --filter=blob:none --no-checkout "$(MAKEFILES_REPO)" "$(MAKEFILES_DIR)" \
+	if ! mf_git_quiet git clone -q --filter=blob:none --no-local --no-checkout "$(MAKEFILES_REPO)" "$(MAKEFILES_DIR)" \
 		|| ! $(MAKE) --no-print-directory _makefiles-checkout; then \
 		echo "==> Removing incomplete $(MAKEFILES_DIR) so 'make init' can be retried" >&2; \
 		rm -rf "$(MAKEFILES_DIR)"; \

@@ -16,6 +16,7 @@ makefiles_bare_repo() {
   head_commit="$(git -C "$REPO_ROOT" commit-tree "$tree" -p HEAD -m "test worktree snapshot")"
   rm -f "$tmp_index"
   git clone --bare "$REPO_ROOT" "$dest"
+  git --git-dir="$dest" config uploadpack.allowFilter true
   # Make the snapshot reachable in the bare repo (not only via local object hardlinks).
   git -C "$REPO_ROOT" push -q "$dest" "$head_commit":refs/heads/master
   git --git-dir="$dest" symbolic-ref HEAD refs/heads/master
