@@ -133,6 +133,22 @@ make python-build
 Language targets are prefixed (`python-lint`, not `lint`) so they do not clash
 with other skills.
 
+### Project Virtualenv
+
+`python-install-dev` and `python-install-test` create `.venv` from `PYTHON`
+(default `python3`) and install into it. An existing `.venv` is reused when
+its base interpreter matches `PYTHON` and `pip` imports. Otherwise the target
+deletes it and creates it again.
+
+Lint, type check, test, format, and Hatch run from `.venv/bin`. Make starts a
+new shell for each target, so those commands do not need `.venv` activated.
+CI keeps calling `make PYTHON=python python-install-dev` and then
+`make PYTHON=python python-check`. The check finds `ruff`, `mypy`, and
+`pytest` in `.venv/bin`.
+
+`python-audit` still builds its own temporary environment with `PYTHON`.
+`python-clean` deletes `.venv`.
+
 ## MkDocs Skill
 
 Enable with `skills = python mkdocs` (or `skills = mkdocs` alone).

@@ -140,7 +140,8 @@ See `make help` or `make show-version-flow` for version next steps.
 
 Enable `python` for prefixed commands such as `make python-lint`,
 `make python-type`, `make python-test`, `make python-check`, and
-`make python-build`.
+`make python-build`. Installs go into `.venv`, and the check commands run
+the tools in `.venv/bin`.
 
 Enable `mkdocs` for `make mkdocs-build`, `make mkdocs-serve`, and
 `make mkdocs-clean`. Serve defaults to `127.0.0.1:8000`; override per run:

@@ -189,6 +189,9 @@ make python-install-dev
 make python-check
 ```
 
+`python-install-dev` creates `.venv`. `python-check` runs `ruff`, `mypy`, and
+`pytest` from `.venv/bin`.
+
 ## Python + MkDocs
 
 `makefiles.config.python-docs`:

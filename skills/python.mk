@@ -1,9 +1,14 @@
+# Project tools live in .venv. CI runs install and check as separate make
+# processes and never activates the virtualenv, so later targets call the
+# binaries by path. PYTHON is the interpreter that creates .venv.
 PYTHON ?= python3
-PIP ?= $(PYTHON) -m pip
-HATCH ?= hatch
-MYPY ?= mypy
-PYTEST ?= pytest
-RUFF ?= ruff
+VENV_DIR ?= .venv
+VENV_BIN := $(VENV_DIR)/bin
+PIP ?= $(VENV_BIN)/python -m pip
+HATCH ?= $(VENV_BIN)/hatch
+MYPY ?= $(VENV_BIN)/mypy
+PYTEST ?= $(VENV_BIN)/pytest
+RUFF ?= $(VENV_BIN)/ruff
 
 SRC_DIR ?= src
 TEST_DIR ?= tests
@@ -24,11 +29,12 @@ PYTHON_PACKAGE_DIRS ?=
 
 STATUS_FRAGMENTS += status-python
 
-.PHONY: help-python status-python python-doctor python-install-dev python-install-test python-lint python-check-style python-check-diff python-check-diff-all python-format python-format-diff python-type python-test python-test-cov python-check python-check-all python-audit python-build python-publish python-clean
+.PHONY: help-python status-python python-doctor python-venv python-install-dev python-install-test python-lint python-check-style python-check-diff python-check-diff-all python-format python-format-diff python-type python-test python-test-cov python-check python-check-all python-audit python-build python-publish python-clean
 
 help-python:
 	$(call mf_help_header,Python:)
 	$(call mf_help_line,python-doctor,Check Python tools and project layout)
+	$(call mf_help_line,python-venv,Create the project venv)
 	$(call mf_help_line,python-install-dev,Install editable with dev extras)
 	$(call mf_help_line,python-install-test,Install editable with test extras)
 	$(call mf_help_line,python-lint,Ruff lint + format check)
@@ -75,26 +81,20 @@ status-python:
 		mf_tagged "Python:" red "[MISSING]" "$(PYTHON)"; \
 		mf_tagged "Python executable:" red "[UNAVAILABLE]"; \
 	fi; \
-	if command -v "$(HATCH)" >/dev/null 2>&1; then \
-		mf_tagged "Hatch:" green "[OK]" "$$(command -v "$(HATCH)")"; \
+	if [ -x "$(VENV_BIN)/python" ]; then \
+		mf_tagged "Virtualenv:" green "[OK]" "$(VENV_DIR)"; \
 	else \
-		mf_tagged "Hatch:" red "[MISSING]" "$(HATCH)"; \
+		mf_tagged "Virtualenv:" red "[MISSING]" "$(VENV_DIR)"; \
 	fi; \
-	if command -v "$(RUFF)" >/dev/null 2>&1; then \
-		mf_tagged "Ruff:" green "[OK]" "$$(command -v "$(RUFF)")"; \
-	else \
-		mf_tagged "Ruff:" red "[MISSING]" "$(RUFF)"; \
-	fi; \
-	if command -v "$(MYPY)" >/dev/null 2>&1; then \
-		mf_tagged "mypy:" green "[OK]" "$$(command -v "$(MYPY)")"; \
-	else \
-		mf_tagged "mypy:" red "[MISSING]" "$(MYPY)"; \
-	fi; \
-	if command -v "$(PYTEST)" >/dev/null 2>&1; then \
-		mf_tagged "pytest:" green "[OK]" "$$(command -v "$(PYTEST)")"; \
-	else \
-		mf_tagged "pytest:" red "[MISSING]" "$(PYTEST)"; \
-	fi
+	for tool_pair in "Hatch:$(HATCH)" "Ruff:$(RUFF)" "mypy:$(MYPY)" "pytest:$(PYTEST)"; do \
+		label="$${tool_pair%%:*}"; \
+		cmd="$${tool_pair#*:}"; \
+		if [ -x "$$cmd" ]; then \
+			mf_tagged "$$label:" green "[OK]" "$$cmd"; \
+		else \
+			mf_tagged "$$label:" red "[MISSING]" "$$cmd"; \
+		fi; \
+	done
 
 python-doctor:
 	@$(mf_color_prelude) \
@@ -119,11 +119,23 @@ python-doctor:
 		mf_tagged "Test directory:" red "[MISSING]" "$(TEST_DIR)"; \
 		failures=$$((failures + 1)); \
 	fi; \
-	for tool_pair in "Python:$(PYTHON)" "Ruff:$(RUFF)" "mypy:$(MYPY)" "pytest:$(PYTEST)" "Hatch:$(HATCH)"; do \
+	if command -v "$(PYTHON)" >/dev/null 2>&1; then \
+		mf_tagged "Python:" green "[OK]" "$$(command -v "$(PYTHON)")"; \
+	else \
+		mf_tagged "Python:" red "[MISSING]" "$(PYTHON)"; \
+		failures=$$((failures + 1)); \
+	fi; \
+	if [ -x "$(VENV_BIN)/python" ]; then \
+		mf_tagged "Virtualenv:" green "[OK]" "$(VENV_DIR)"; \
+	else \
+		mf_tagged "Virtualenv:" red "[MISSING]" "$(VENV_DIR)"; \
+		failures=$$((failures + 1)); \
+	fi; \
+	for tool_pair in "Ruff:$(RUFF)" "mypy:$(MYPY)" "pytest:$(PYTEST)" "Hatch:$(HATCH)"; do \
 		label="$${tool_pair%%:*}"; \
 		cmd="$${tool_pair#*:}"; \
-		if command -v "$$cmd" >/dev/null 2>&1; then \
-			mf_tagged "$$label:" green "[OK]" "$$(command -v "$$cmd")"; \
+		if [ -x "$$cmd" ]; then \
+			mf_tagged "$$label:" green "[OK]" "$$cmd"; \
 		else \
 			mf_tagged "$$label:" red "[MISSING]" "$$cmd"; \
 			failures=$$((failures + 1)); \
@@ -135,10 +147,25 @@ python-doctor:
 	fi; \
 	mf_msg_ok "Python doctor: OK"
 
-python-install-dev:
+python-venv:
+	@set -e; \
+	base="$$("$(PYTHON)" -c 'import sys; print(sys.prefix)')"; \
+	if [ -x "$(VENV_BIN)/python" ]; then \
+		current="$$("$(VENV_BIN)/python" -c 'import sys; print(sys.base_prefix)' 2>/dev/null || true)"; \
+		if [ "$$current" = "$$base" ] && "$(VENV_BIN)/python" -c 'import pip' >/dev/null 2>&1; then \
+			exit 0; \
+		fi; \
+		echo "==> Recreating $(VENV_DIR) for $$base"; \
+		rm -rf "$(VENV_DIR)"; \
+	else \
+		echo "==> Creating $(VENV_DIR) with $$base"; \
+	fi; \
+	"$(PYTHON)" -m venv "$(VENV_DIR)"
+
+python-install-dev: python-venv
 	$(PIP) install $(PIP_INSTALL_DEV)
 
-python-install-test:
+python-install-test: python-venv
 	$(PIP) install $(PIP_INSTALL_TEST)
 
 python-lint:
@@ -203,6 +230,7 @@ python-publish: python-build
 
 python-clean:
 	rm -rf \
+		"$(VENV_DIR)" \
 		"$(AUDIT_VENV_DIR)" \
 		build \
 		dist \

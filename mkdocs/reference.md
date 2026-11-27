@@ -113,6 +113,7 @@ Enable with `skills = python` in `makefiles.config`.
 | Command                    | Description                    |
 | -------------------------- | ------------------------------ |
 | `make python-doctor`       | Check layout and tools         |
+| `make python-venv`         | Create the project venv        |
 | `make python-install-dev`  | Editable install with `[dev]`  |
 | `make python-install-test` | Editable install with `[test]` |
 | `make python-lint`         | Ruff lint + format check       |
@@ -144,7 +145,9 @@ Enable with `skills = python` in `makefiles.config`.
 | `PYTHON_RUFF_PATHS`                             | `$(SRC_DIR) $(TEST_DIR)`                             |
 | `MYPY_ARGS`                                     | `$(SRC_DIR)` (set empty to use `[tool.mypy] files`)  |
 | `PYTHON_PACKAGE_DIRS`                           | empty (`hatch build` at root; set for multi-package) |
-| `PYTHON` / `RUFF` / `MYPY` / `PYTEST` / `HATCH` | tool names on `PATH`                                 |
+| `PYTHON`                                        | interpreter that creates `.venv` (`python3`)         |
+| `VENV_DIR`                                      | `.venv`                                              |
+| `PIP` / `RUFF` / `MYPY` / `PYTEST` / `HATCH`    | binaries in `.venv/bin`                              |
 
 </div>
 

@@ -26,8 +26,33 @@ assert_not_contains "$out" "bash-shellcheck"
 out="$(make -C "$CONSUMER" help)"
 assert_not_contains "$out" "python-lint"
 
-# Target exists when skill enabled.
-make -C "$CONSUMER" -n python-lint SKILLS=python >/dev/null
+# Target exists when skill enabled, and lint uses the project virtualenv.
+dry="$(make -C "$CONSUMER" -n python-lint SKILLS=python)"
+assert_contains "$dry" ".venv/bin/ruff"
+
+venv_out="$(make -C "$CONSUMER" python-venv SKILLS=python)"
+assert_contains "$venv_out" "Creating .venv"
+test -x "$CONSUMER/.venv/bin/python"
+"$CONSUMER/.venv/bin/python" -c 'import pip'
+
+second="$(make -C "$CONSUMER" python-venv SKILLS=python)"
+assert_not_contains "$second" "Creating .venv"
+assert_not_contains "$second" "Recreating .venv"
+
+# .venv/bin/python is a symlink to the real interpreter. Remove the link
+# before writing a stand-in, or the redirect follows it and overwrites Python.
+rm -f "$CONSUMER/.venv/bin/python"
+cat > "$CONSUMER/.venv/bin/python" <<'EOF'
+#!/bin/sh
+echo /not-the-base-prefix
+EOF
+chmod +x "$CONSUMER/.venv/bin/python"
+recreate="$(make -C "$CONSUMER" python-venv SKILLS=python)"
+assert_contains "$recreate" "Recreating .venv"
+"$CONSUMER/.venv/bin/python" -c 'import sys'
+
+clean_dry="$(make -C "$CONSUMER" -n python-clean SKILLS=python)"
+assert_contains "$clean_dry" ".venv"
 
 # Minimal bumpversion file so `make status` can print a version.
 cat > "$CONSUMER/.bumpversion.toml" <<'EOF'
